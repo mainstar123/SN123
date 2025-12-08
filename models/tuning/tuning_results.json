@@ -1,0 +1,119 @@
+[
+  {
+    "config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 20,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "test_accuracy": 0.505838967424708,
+    "test_auc": 0.5050720097689063,
+    "ci_lower": 0.49440688383527964,
+    "ci_upper": 0.5160448678549477,
+    "success": true
+  },
+  {
+    "config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 25,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "test_accuracy": 0.5641057160417947,
+    "test_auc": 0.5879079129664745,
+    "ci_lower": 0.553039336201598,
+    "ci_upper": 0.5744345421020283,
+    "success": true
+  },
+  {
+    "config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 30,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "test_accuracy": 0.5535341118623233,
+    "test_auc": 0.5783043128468542,
+    "ci_lower": 0.5424708051628765,
+    "ci_upper": 0.56460049170252,
+    "success": true
+  },
+  {
+    "config": {
+      "lstm_hidden": 512,
+      "tmfg_n_features": 20,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "test_accuracy": 0.508420405654579,
+    "test_auc": 0.5068447281535541,
+    "ci_lower": 0.4982145052243393,
+    "ci_upper": 0.5188690842040565,
+    "success": true
+  },
+  {
+    "config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 20,
+      "dropout": 0.4,
+      "learning_rate": 0.0005
+    },
+    "test_accuracy": 0.493300553165335,
+    "test_auc": 0.5028482062344013,
+    "ci_lower": 0.4826029502151199,
+    "ci_upper": 0.5048678549477567,
+    "success": true
+  },
+  {
+    "config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 20,
+      "dropout": 0.5,
+      "learning_rate": 0.0005
+    },
+    "test_accuracy": 0.5044867854947757,
+    "test_auc": 0.5013143776596973,
+    "ci_lower": 0.49378918254456056,
+    "ci_upper": 0.5150583896742471,
+    "success": true
+  },
+  {
+    "config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 20,
+      "dropout": 0.3,
+      "learning_rate": 0.0003
+    },
+    "test_accuracy": 0.5009219422249539,
+    "test_auc": 0.5047460228262811,
+    "ci_lower": 0.49059618930547017,
+    "ci_upper": 0.5118623232944068,
+    "success": true
+  },
+  {
+    "config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 20,
+      "dropout": 0.3,
+      "learning_rate": 0.0001
+    },
+    "test_accuracy": 0.5098955132145052,
+    "test_auc": 0.5095698616954368,
+    "ci_lower": 0.49969268592501537,
+    "ci_upper": 0.5212046711739398,
+    "success": true
+  },
+  {
+    "config": {
+      "lstm_hidden": 512,
+      "tmfg_n_features": 25,
+      "dropout": 0.4,
+      "learning_rate": 0.0003
+    },
+    "test_accuracy": 0.5553779963122311,
+    "test_auc": 0.5808195788791659,
+    "ci_lower": 0.5448002458512601,
+    "ci_upper": 0.565460971112477,
+    "success": true
+  }
+]

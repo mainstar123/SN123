@@ -1,0 +1,13 @@
+{
+  "CHFUSD": {
+    "challenge_name": "CHFUSD-1H-BINARY",
+    "config": {
+      "lstm_hidden": 128,
+      "tmfg_n_features": 20,
+      "dropout": 0.4,
+      "learning_rate": 0.0005
+    },
+    "accuracy": 0.9850469599604548,
+    "ci_lower": 0.9825753830944143,
+    "ci_upper": 0.9876421156697973,
+    "passed": 

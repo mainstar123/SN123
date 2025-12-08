@@ -1,5 +1,5 @@
 bittensor
-torch==2.7.1
+torch
 requests
 aiohttp
 timelock

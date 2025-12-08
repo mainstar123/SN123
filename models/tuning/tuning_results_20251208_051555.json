@@ -1,0 +1,241 @@
+{
+  "CHFUSD": {
+    "ticker": "CHFUSD",
+    "challenge_name": "CHFUSD-1H-BINARY",
+    "challenge_type": "binary",
+    "best_config": {
+      "lstm_hidden": 128,
+      "tmfg_n_features": 20,
+      "dropout": 0.4,
+      "learning_rate": 0.0005
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 128,
+        "tmfg_n_features": 20,
+        "dropout": 0.4,
+        "learning_rate": 0.0005
+      },
+      "config_name": "h128_f20_d0.4_lr0.0005",
+      "success": true,
+      "test_accuracy": 0.9850469599604548,
+      "test_auc": NaN,
+      "ci_lower": 0.9825753830944143,
+      "ci_upper": 0.9876421156697973,
+      "passed": "True",
+      "n_test_samples": 8092
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9824518042511122,
+        "ci_upper": 0.9875185368264953,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9877656945130994,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9824487147800297,
+        "ci_upper": 0.9875185368264953,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9876421156697973,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9822046465645081,
+        "ci_upper": 0.9876421156697973,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9876421156697973,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9875216262975778,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9875185368264953,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9875216262975778,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9822046465645081,
+        "ci_upper": 0.9877656945130994,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9877656945130994,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9877656945130994,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9850469599604548,
+        "test_auc": NaN,
+        "ci_lower": 0.9822046465645081,
+        "ci_upper": 0.9876421156697973,
+        "passed": "True",
+        "n_test_samples": 8092
+      }
+    ],
+    "n_configs_tested": 13,
+    "n_successful": 13
+  }
+}
