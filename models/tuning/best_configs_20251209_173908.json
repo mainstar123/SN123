@@ -1,0 +1,13 @@
+{
+  "ETH": {
+    "challenge_name": "ETH-1H-BINARY",
+    "config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 30,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "accuracy": 0.5521819299323909,
+    "ci_lower": 0.5417301782421634,
+    "ci_upper": 0.5630024585125999,
+    "passed": 

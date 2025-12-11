@@ -1,0 +1,2223 @@
+{
+  "ETH": {
+    "ticker": "ETH",
+    "challenge_name": "ETH-1H-BINARY",
+    "challenge_type": "binary",
+    "best_config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 30,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 256,
+        "tmfg_n_features": 30,
+        "dropout": 0.3,
+        "learning_rate": 0.0005
+      },
+      "config_name": "h256_f30_d0.3_lr0.0005",
+      "success": true,
+      "test_accuracy": 0.5521819299323909,
+      "test_auc": 0.5668380267655756,
+      "ci_lower": 0.5417301782421634,
+      "ci_upper": 0.5630024585125999,
+      "passed": "False",
+      "n_test_samples": 8135
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.4977258758451137,
+        "test_auc": 0.5051297078830603,
+        "ci_lower": 0.48641671788567914,
+        "ci_upper": 0.5089121081745543,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.5030116779348495,
+        "test_auc": 0.5073506595619431,
+        "ci_lower": 0.49169944683466504,
+        "ci_upper": 0.5140811309157959,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.4967424708051629,
+        "test_auc": 0.4998159183440499,
+        "ci_lower": 0.48604486785494777,
+        "ci_upper": 0.5083036263060847,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.4982175783650891,
+        "test_auc": 0.503582654084418,
+        "ci_lower": 0.4876459741856177,
+        "ci_upper": 0.5092870313460356,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.5521819299323909,
+        "test_auc": 0.5668380267655756,
+        "ci_lower": 0.5417301782421634,
+        "ci_upper": 0.5630024585125999,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.552919483712354,
+        "test_auc": 0.5733951308361352,
+        "ci_lower": 0.5416103257529195,
+        "ci_upper": 0.5637369391518131,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.5030116779348495,
+        "test_auc": 0.5109129071563353,
+        "ci_lower": 0.4919483712354026,
+        "ci_upper": 0.5137062077443146,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.55119852489244,
+        "test_auc": 0.5694364833940146,
+        "ci_lower": 0.5405039950829748,
+        "ci_upper": 0.5623847572218807,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.4956361401352182,
+        "test_auc": 0.49819089663759086,
+        "ci_lower": 0.4855531653349724,
+        "ci_upper": 0.5064566687154272,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": true,
+        "test_accuracy": 0.500061462814997,
+        "test_auc": 0.5026095819444828,
+        "ci_lower": 0.4903503380454825,
+        "ci_upper": 0.5113767670559312,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": true,
+        "test_accuracy": 0.5052243392747388,
+        "test_auc": 0.5038162554894969,
+        "ci_lower": 0.4942778119237861,
+        "ci_upper": 0.5150583896742471,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.5439459127228027,
+        "test_auc": 0.5682748552862422,
+        "ci_lower": 0.5328826060233559,
+        "ci_upper": 0.5551321450522434,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.5005531653349723,
+        "test_auc": 0.5095736367739099,
+        "ci_lower": 0.4894898586355255,
+        "ci_upper": 0.5110049170251998,
+        "passed": "False",
+        "n_test_samples": 8135
+      }
+    ],
+    "n_configs_tested": 13,
+    "n_successful": 13
+  },
+  "ETHHITFIRST": {
+    "ticker": "ETHHITFIRST",
+    "challenge_name": "ETH-HITFIRST-100M",
+    "challenge_type": "hitfirst",
+    "best_config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 30,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 256,
+        "tmfg_n_features": 30,
+        "dropout": 0.3,
+        "learning_rate": 0.0005
+      },
+      "config_name": "h256_f30_d0.3_lr0.0005",
+      "success": true,
+      "test_accuracy": 0.545298094652735,
+      "test_auc": 0.5684186681352084,
+      "ci_lower": 0.5346035648432699,
+      "ci_upper": 0.5561216963736939,
+      "passed": "False",
+      "n_test_samples": 8135
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.49071911493546405,
+        "test_auc": 0.500242036087623,
+        "ci_lower": 0.4803902888752305,
+        "ci_upper": 0.5006760909649662,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.48358942839582053,
+        "test_auc": 0.4839128534645927,
+        "ci_lower": 0.4730147510755993,
+        "ci_upper": 0.494778733866011,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.49366933005531655,
+        "test_auc": 0.5043855512134575,
+        "ci_lower": 0.4828518746158574,
+        "ci_upper": 0.5046158574062691,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.545298094652735,
+        "test_auc": 0.5684186681352084,
+        "ci_lower": 0.5346035648432699,
+        "ci_upper": 0.5561216963736939,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.49071911493546405,
+        "test_auc": 0.5029294347807369,
+        "ci_lower": 0.47916103257529197,
+        "ci_upper": 0.5021511985248924,
+        "passed": "False",
+        "n_test_samples": 8135
+      }
+    ],
+    "n_configs_tested": 5,
+    "n_successful": 5
+  },
+  "ETHLBFGS": {
+    "ticker": "ETHLBFGS",
+    "challenge_name": "ETH-LBFGS",
+    "challenge_type": "lbfgs",
+    "best_config": {
+      "lstm_hidden": 512,
+      "tmfg_n_features": 30,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 512,
+        "tmfg_n_features": 30,
+        "dropout": 0.3,
+        "learning_rate": 0.0005
+      },
+      "config_name": "h512_f30_d0.3_lr0.0005",
+      "success": true,
+      "test_accuracy": 0.5451751690227412,
+      "test_auc": 0.5157742167898433,
+      "ci_lower": 0.5344806392132759,
+      "ci_upper": 0.5556238475722188,
+      "passed": "False",
+      "n_test_samples": 8135
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.4908420405654579,
+        "test_auc": 0.4996635196533544,
+        "ci_lower": 0.48002458512599877,
+        "ci_upper": 0.5026429010448679,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.5451751690227412,
+        "test_auc": 0.5157742167898433,
+        "ci_lower": 0.5344806392132759,
+        "ci_upper": 0.5556238475722188,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f35_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.47178856791641055,
+        "test_auc": 0.44891732535793294,
+        "ci_lower": 0.46023355869698834,
+        "ci_upper": 0.4823663183773817,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.49354640442532266,
+        "test_auc": 0.5070100374536183,
+        "ci_lower": 0.4822372464658881,
+        "ci_upper": 0.5042440073755379,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.5055931161647204,
+        "test_auc": 0.5386182393752024,
+        "ci_lower": 0.49391518131530426,
+        "ci_upper": 0.516659496004917,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.48973570989551324,
+        "test_auc": 0.48532839877195855,
+        "ci_lower": 0.4789121081745544,
+        "ci_upper": 0.500061462814997,
+        "passed": "False",
+        "n_test_samples": 8135
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.5204671173939767,
+        "test_auc": 0.5092960178140494,
+        "ci_lower": 0.5098924400737553,
+        "ci_upper": 0.531161647203442,
+        "passed": "False",
+        "n_test_samples": 8135
+      }
+    ],
+    "n_configs_tested": 7,
+    "n_successful": 7
+  },
+  "BTCLBFGS": {
+    "ticker": "BTCLBFGS",
+    "challenge_name": "BTC-LBFGS-6H",
+    "challenge_type": "lbfgs",
+    "best_config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 25,
+      "dropout": 0.4,
+      "learning_rate": 0.0005
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 256,
+        "tmfg_n_features": 25,
+        "dropout": 0.4,
+        "learning_rate": 0.0005
+      },
+      "config_name": "h256_f25_d0.4_lr0.0005",
+      "success": true,
+      "test_accuracy": 0.4838709677419355,
+      "test_auc": 0.4147899159663866,
+      "ci_lower": 0.4064516129032258,
+      "ci_upper": 0.5612903225806452,
+      "passed": "False",
+      "n_test_samples": 155
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.44516129032258067,
+        "test_auc": 0.5563865546218487,
+        "ci_lower": 0.36129032258064514,
+        "ci_upper": 0.5225806451612903,
+        "passed": "False",
+        "n_test_samples": 155
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.4645161290322581,
+        "test_auc": 0.507563025210084,
+        "ci_lower": 0.3870967741935484,
+        "ci_upper": 0.5419354838709678,
+        "passed": "False",
+        "n_test_samples": 155
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f35_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.4645161290322581,
+        "test_auc": 0.5173949579831932,
+        "ci_lower": 0.3869354838709679,
+        "ci_upper": 0.5419354838709678,
+        "passed": "False",
+        "n_test_samples": 155
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.45806451612903226,
+        "test_auc": 0.3765546218487395,
+        "ci_lower": 0.3870967741935484,
+        "ci_upper": 0.535483870967742,
+        "passed": "False",
+        "n_test_samples": 155
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.4645161290322581,
+        "test_auc": 0.38806722689075623,
+        "ci_lower": 0.3870967741935484,
+        "ci_upper": 0.5419354838709678,
+        "passed": "False",
+        "n_test_samples": 155
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.4838709677419355,
+        "test_auc": 0.4147899159663866,
+        "ci_lower": 0.4064516129032258,
+        "ci_upper": 0.5612903225806452,
+        "passed": "False",
+        "n_test_samples": 155
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.44516129032258067,
+        "test_auc": 0.5094117647058823,
+        "ci_lower": 0.36129032258064514,
+        "ci_upper": 0.5161290322580645,
+        "passed": "False",
+        "n_test_samples": 155
+      }
+    ],
+    "n_configs_tested": 7,
+    "n_successful": 7
+  },
+  "EURUSD": {
+    "ticker": "EURUSD",
+    "challenge_name": "EURUSD-1H-BINARY",
+    "challenge_type": "binary",
+    "best_config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 35,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 256,
+        "tmfg_n_features": 35,
+        "dropout": 0.3,
+        "learning_rate": 0.0005
+      },
+      "config_name": "h256_f35_d0.3_lr0.0005",
+      "success": true,
+      "test_accuracy": 0.9852941176470589,
+      "test_auc": NaN,
+      "ci_lower": 0.9828225407810183,
+      "ci_upper": 0.9880128521997034,
+      "passed": "True",
+      "n_test_samples": 8092
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9877687839841819,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9877656945130994,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9826958724666337,
+        "ci_upper": 0.9877687839841819,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9826989619377162,
+        "ci_upper": 0.9876452051408798,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9880128521997034,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9828225407810183,
+        "ci_upper": 0.9880128521997034,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9826989619377162,
+        "ci_upper": 0.9878892733564014,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9826958724666337,
+        "ci_upper": 0.9878892733564014,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9878892733564014,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9826989619377162,
+        "ci_upper": 0.9878892733564014,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9878892733564014,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9880128521997034,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9852941176470589,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9877656945130994,
+        "passed": "True",
+        "n_test_samples": 8092
+      }
+    ],
+    "n_configs_tested": 13,
+    "n_successful": 13
+  },
+  "GBPUSD": {
+    "ticker": "GBPUSD",
+    "challenge_name": "GBPUSD-1H-BINARY",
+    "challenge_type": "binary",
+    "best_config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 30,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 256,
+        "tmfg_n_features": 30,
+        "dropout": 0.3,
+        "learning_rate": 0.0005
+      },
+      "config_name": "h256_f30_d0.3_lr0.0005",
+      "success": true,
+      "test_accuracy": 0.9845526445872467,
+      "test_auc": NaN,
+      "ci_lower": 0.9819574888779041,
+      "ci_upper": 0.9871478002965892,
+      "passed": "True",
+      "n_test_samples": 8092
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9817103311913,
+        "ci_upper": 0.9871478002965892,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9818339100346021,
+        "ci_upper": 0.9871478002965892,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.981586752347998,
+        "ci_upper": 0.9873949579831933,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9818339100346021,
+        "ci_upper": 0.9872713791398913,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9819574888779041,
+        "ci_upper": 0.9871478002965892,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9817103311913,
+        "ci_upper": 0.9871478002965892,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9819543994068216,
+        "ci_upper": 0.9870242214532872,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9817103311913,
+        "ci_upper": 0.9871478002965892,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9818339100346021,
+        "ci_upper": 0.9871508897676717,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9819543994068216,
+        "ci_upper": 0.9870242214532872,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9819574888779041,
+        "ci_upper": 0.9871508897676717,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9819574888779041,
+        "ci_upper": 0.9872713791398913,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9845526445872467,
+        "test_auc": NaN,
+        "ci_lower": 0.9818339100346021,
+        "ci_upper": 0.9869006426099852,
+        "passed": "True",
+        "n_test_samples": 8092
+      }
+    ],
+    "n_configs_tested": 13,
+    "n_successful": 13
+  },
+  "CADUSD": {
+    "ticker": "CADUSD",
+    "challenge_name": "CADUSD-1H-BINARY",
+    "challenge_type": "binary",
+    "best_config": {
+      "lstm_hidden": 512,
+      "tmfg_n_features": 25,
+      "dropout": 0.4,
+      "learning_rate": 0.0003
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 512,
+        "tmfg_n_features": 25,
+        "dropout": 0.4,
+        "learning_rate": 0.0003
+      },
+      "config_name": "h512_f25_d0.4_lr0.0003",
+      "success": true,
+      "test_accuracy": 0.986035590706871,
+      "test_auc": NaN,
+      "ci_lower": 0.9836875926841325,
+      "ci_upper": 0.9886307464162135,
+      "passed": "True",
+      "n_test_samples": 8092
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9835640138408305,
+        "ci_upper": 0.9885071675729116,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9834404349975284,
+        "ci_upper": 0.9883835887296095,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9834373455264459,
+        "ci_upper": 0.9885071675729116,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9833137666831439,
+        "ci_upper": 0.9883835887296095,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.983560924369748,
+        "ci_upper": 0.9885071675729116,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9835640138408305,
+        "ci_upper": 0.9886307464162135,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9833168561542264,
+        "ci_upper": 0.9886307464162135,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9835640138408305,
+        "ci_upper": 0.9883835887296095,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9833168561542264,
+        "ci_upper": 0.9885071675729116,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9834404349975284,
+        "ci_upper": 0.9885071675729116,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9834404349975284,
+        "ci_upper": 0.988386678200692,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9833168561542264,
+        "ci_upper": 0.9883835887296095,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.986035590706871,
+        "test_auc": NaN,
+        "ci_lower": 0.9836875926841325,
+        "ci_upper": 0.9886307464162135,
+        "passed": "True",
+        "n_test_samples": 8092
+      }
+    ],
+    "n_configs_tested": 13,
+    "n_successful": 13
+  },
+  "NZDUSD": {
+    "ticker": "NZDUSD",
+    "challenge_name": "NZDUSD-1H-BINARY",
+    "challenge_type": "binary",
+    "best_config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 35,
+      "dropout": 0.3,
+      "learning_rate": 0.0005
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 256,
+        "tmfg_n_features": 35,
+        "dropout": 0.3,
+        "learning_rate": 0.0005
+      },
+      "config_name": "h256_f35_d0.3_lr0.0005",
+      "success": true,
+      "test_accuracy": 0.9849233811171527,
+      "test_auc": NaN,
+      "ci_lower": 0.9825753830944143,
+      "ci_upper": 0.9875185368264953,
+      "passed": "True",
+      "n_test_samples": 8092
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9876421156697973,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9873949579831933,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9823251359367277,
+        "ci_upper": 0.9875216262975778,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9823251359367277,
+        "ci_upper": 0.9873949579831933,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9820810677212062,
+        "ci_upper": 0.9875185368264953,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9825753830944143,
+        "ci_upper": 0.9875185368264953,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9822015570934256,
+        "ci_upper": 0.9875185368264953,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9873949579831933,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9820810677212062,
+        "ci_upper": 0.9875185368264953,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9822046465645081,
+        "ci_upper": 0.9873949579831933,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9823282254078102,
+        "ci_upper": 0.9877656945130994,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9822046465645081,
+        "ci_upper": 0.9876421156697973,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9849233811171527,
+        "test_auc": NaN,
+        "ci_lower": 0.9820810677212062,
+        "ci_upper": 0.9875185368264953,
+        "passed": "True",
+        "n_test_samples": 8092
+      }
+    ],
+    "n_configs_tested": 13,
+    "n_successful": 13
+  },
+  "CHFUSD": {
+    "ticker": "CHFUSD",
+    "challenge_name": "CHFUSD-1H-BINARY",
+    "best_config": null,
+    "best_result": null,
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": false,
+        "error": "Evaluation failed: X has 100 features, but StandardScaler is expecting 69 features as input."
+      }
+    ]
+  },
+  "XAUUSD": {
+    "ticker": "XAUUSD",
+    "challenge_name": "XAUUSD-1H-BINARY",
+    "challenge_type": "binary",
+    "best_config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 25,
+      "dropout": 0.3,
+      "learning_rate": 0.001
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 256,
+        "tmfg_n_features": 25,
+        "dropout": 0.3,
+        "learning_rate": 0.001
+      },
+      "config_name": "h256_f25_d0.3_lr0.001",
+      "success": true,
+      "test_accuracy": 0.9826989619377162,
+      "test_auc": NaN,
+      "ci_lower": 0.9799802273850716,
+      "ci_upper": 0.9855412753336629,
+      "passed": "True",
+      "n_test_samples": 8092
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9662629757785467,
+        "test_auc": 0.9380528707962059,
+        "ci_lower": 0.9624289421651013,
+        "ci_upper": 0.96997343054869,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9797330696984676,
+        "ci_upper": 0.9855412753336629,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9798566485417697,
+        "ci_upper": 0.9854176964903608,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9797330696984676,
+        "ci_upper": 0.9852941176470589,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9797330696984676,
+        "ci_upper": 0.9854207859614433,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9796094908551656,
+        "ci_upper": 0.9854176964903608,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9430301532377657,
+        "test_auc": 0.892179864903708,
+        "ci_lower": 0.9378398418190805,
+        "ci_upper": 0.9478528175976273,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9799771379139891,
+        "ci_upper": 0.9854176964903608,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9589718240237272,
+        "test_auc": 0.9753408845932738,
+        "ci_lower": 0.9543994068215521,
+        "ci_upper": 0.963049925852694,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9798566485417697,
+        "ci_upper": 0.9854176964903608,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9799802273850716,
+        "ci_upper": 0.9855412753336629,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9826989619377162,
+        "test_auc": NaN,
+        "ci_lower": 0.9798535590706872,
+        "ci_upper": 0.9851705388037568,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.967622343054869,
+        "test_auc": 0.9676806373958033,
+        "ci_lower": 0.9636678200692042,
+        "ci_upper": 0.9709589718240237,
+        "passed": "True",
+        "n_test_samples": 8092
+      }
+    ],
+    "n_configs_tested": 13,
+    "n_successful": 13
+  },
+  "XAGUSD": {
+    "ticker": "XAGUSD",
+    "challenge_name": "XAGUSD-1H-BINARY",
+    "challenge_type": "binary",
+    "best_config": {
+      "lstm_hidden": 256,
+      "tmfg_n_features": 25,
+      "dropout": 0.3,
+      "learning_rate": 0.0001
+    },
+    "best_result": {
+      "config": {
+        "lstm_hidden": 256,
+        "tmfg_n_features": 25,
+        "dropout": 0.3,
+        "learning_rate": 0.0001
+      },
+      "config_name": "h256_f25_d0.3_lr0.0001",
+      "success": true,
+      "test_accuracy": 0.9829461196243203,
+      "test_auc": NaN,
+      "ci_lower": 0.9803509639149778,
+      "ci_upper": 0.9856648541769649,
+      "passed": "True",
+      "n_test_samples": 8092
+    },
+    "all_results": [
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9799771379139891,
+        "ci_upper": 0.985788433020267,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9801007167572912,
+        "ci_upper": 0.985788433020267,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 20,
+          "dropout": 0.5,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f20_d0.5_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9799802273850716,
+        "ci_upper": 0.985788433020267,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 128,
+          "tmfg_n_features": 20,
+          "dropout": 0.4,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h128_f20_d0.4_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.7335640138408305,
+        "test_auc": 0.19257287373411608,
+        "ci_lower": 0.7241658428077112,
+        "ci_upper": 0.743329831932773,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f30_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9802273850716757,
+        "ci_upper": 0.9855443648047454,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 35,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h256_f35_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9801038062283737,
+        "ci_upper": 0.9855412753336629,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0005
+        },
+        "config_name": "h512_f25_d0.3_lr0.0005",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9801007167572912,
+        "ci_upper": 0.985788433020267,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9801038062283737,
+        "ci_upper": 0.9859120118635689,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f25_d0.3_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9803478744438953,
+        "ci_upper": 0.9854176964903608,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.0001
+        },
+        "config_name": "h256_f25_d0.3_lr0.0001",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9803509639149778,
+        "ci_upper": 0.9856648541769649,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 25,
+          "dropout": 0.3,
+          "learning_rate": 0.001
+        },
+        "config_name": "h256_f25_d0.3_lr0.001",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9799802273850716,
+        "ci_upper": 0.985788433020267,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 256,
+          "tmfg_n_features": 30,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h256_f30_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9801038062283737,
+        "ci_upper": 0.9855412753336629,
+        "passed": "True",
+        "n_test_samples": 8092
+      },
+      {
+        "config": {
+          "lstm_hidden": 512,
+          "tmfg_n_features": 25,
+          "dropout": 0.4,
+          "learning_rate": 0.0003
+        },
+        "config_name": "h512_f25_d0.4_lr0.0003",
+        "success": true,
+        "test_accuracy": 0.9829461196243203,
+        "test_auc": NaN,
+        "ci_lower": 0.9802242956005932,
+        "ci_upper": 0.9856648541769649,
+        "passed": "True",
+        "n_test_samples": 8092
+      }
+    ],
+    "n_configs_tested": 13,
+    "n_successful": 13
+  }
+}

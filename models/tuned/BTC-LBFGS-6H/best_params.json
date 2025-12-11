@@ -1,0 +1,11 @@
+{
+  "embedding_dim": 17,
+  "lstm_hidden": 256,
+  "lstm_layers": 3,
+  "time_steps": 25,
+  "vmd_k": 11,
+  "tmfg_n_features": 13,
+  "dropout": 0.27954740340919576,
+  "learning_rate": 0.00020106755146109614,
+  "use_gpu": true
+}

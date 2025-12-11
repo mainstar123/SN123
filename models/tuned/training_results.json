@@ -1,0 +1,52 @@
+{
+  "timestamp": "2025-12-10T12:35:45.798526",
+  "total_challenges": 2,
+  "successful": 2,
+  "failed": 0,
+  "use_tuning": true,
+  "n_trials": 50,
+  "results": [
+    {
+      "challenge_name": "ETH-LBFGS",
+      "status": "success",
+      "embedding_dim": 17,
+      "weight": 3.5,
+      "train_accuracy": 0.4962635088526098,
+      "val_accuracy": 0.50067186240258,
+      "best_params": {
+        "embedding_dim": 17,
+        "lstm_hidden": 256,
+        "lstm_layers": 2,
+        "time_steps": 25,
+        "vmd_k": 5,
+        "tmfg_n_features": 15,
+        "dropout": 0.34973279224012654,
+        "learning_rate": 0.00016305687346221485,
+        "use_gpu": true
+      },
+      "duration_seconds": 17945.434784,
+      "model_dir": "models/tuned/ETH-LBFGS"
+    },
+    {
+      "challenge_name": "BTC-LBFGS-6H",
+      "status": "success",
+      "embedding_dim": 17,
+      "weight": 2.875,
+      "train_accuracy": 0.4912166204383532,
+      "val_accuracy": 0.5103597305198933,
+      "best_params": {
+        "embedding_dim": 17,
+        "lstm_hidden": 256,
+        "lstm_layers": 3,
+        "time_steps": 25,
+        "vmd_k": 11,
+        "tmfg_n_features": 13,
+        "dropout": 0.27954740340919576,
+        "learning_rate": 0.00020106755146109614,
+        "use_gpu": true
+      },
+      "duration_seconds": 22682.066911,
+      "model_dir": "models/tuned/BTC-LBFGS-6H"
+    }
+  ]
+}

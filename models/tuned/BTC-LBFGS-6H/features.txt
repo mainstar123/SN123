@@ -1,0 +1,13 @@
+sma_200
+rsi_14
+atr_50
+volatility_50
+vmd_imf_10
+atr_20
+vol_ratio_24_96
+parkinson_vol
+volatility_12h
+volatility_10
+oc_spread
+returns
+log_returns

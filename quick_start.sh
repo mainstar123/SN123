@@ -1,108 +1,96 @@
 #!/bin/bash
-# Quick Start Script for MANTIS Mining Implementation
+
+# Quick Start Script - Automates initial setup
+# Execute this first, then follow EXECUTE_STEP_BY_STEP.md
 
 set -e
 
 echo "=========================================="
-echo "MANTIS SN123 Mining - Quick Start"
+echo "  MANTIS First Place - Quick Start"
 echo "=========================================="
+echo ""
+
+# Colors
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+RED='\033[0;31m'
+NC='\033[0m' # No Color
 
 # Step 1: Install dependencies
+echo -e "${YELLOW}[1/5] Installing dependencies...${NC}"
+pip install --upgrade pip > /dev/null 2>&1
+pip install optuna lightgbm scikit-learn pandas numpy scipy tensorflow xgboost > /dev/null 2>&1
+echo -e "${GREEN}✓ Dependencies installed${NC}"
 echo ""
-echo "Step 1: Installing dependencies..."
-echo "This may take a while due to large packages..."
 
-# Increase pip timeout and install in batches
-PIP_TIMEOUT=300  # 5 minutes timeout
-
-# Core dependencies first (smaller packages)
-echo "Installing core dependencies..."
-pip install --timeout=$PIP_TIMEOUT --default-timeout=$PIP_TIMEOUT numpy pandas requests tqdm python-dotenv aiohttp
-
-# Data collection dependencies
-echo "Installing data collection dependencies..."
-pip install --timeout=$PIP_TIMEOUT --default-timeout=$PIP_TIMEOUT yfinance python-binance
-
-# ML dependencies (can be slow)
-echo "Installing ML dependencies..."
-pip install --timeout=$PIP_TIMEOUT --default-timeout=$PIP_TIMEOUT scikit-learn xgboost
-
-# Deep learning (very large, may take time)
-echo "Installing deep learning dependencies (this may take several minutes)..."
-pip install --timeout=$PIP_TIMEOUT --default-timeout=$PIP_TIMEOUT tensorflow torch
-
-# Bittensor and cloud storage
-echo "Installing Bittensor and cloud storage..."
-pip install --timeout=$PIP_TIMEOUT --default-timeout=$PIP_TIMEOUT bittensor boto3 botocore aiobotocore "cloudflare>=0.7.0"
-
-# Additional packages
-echo "Installing additional packages..."
-pip install --timeout=$PIP_TIMEOUT --default-timeout=$PIP_TIMEOUT ccxt pywt matplotlib seaborn ipykernel
-
-# Install additional mining requirements if file exists
-if [ -f requirements_mining.txt ]; then
-    echo "Installing mining-specific requirements..."
-    pip install --timeout=$PIP_TIMEOUT --default-timeout=$PIP_TIMEOUT -r requirements_mining.txt
+# Step 2: Verify bug fix
+echo -e "${YELLOW}[2/5] Verifying bug fix...${NC}"
+if grep -q "np.percentile" scripts/training/model_architecture.py; then
+    echo -e "${GREEN}✓ Bug fix confirmed${NC}"
+else
+    echo -e "${RED}✗ Bug fix not found!${NC}"
+    echo "Please check scripts/training/model_architecture.py"
+    exit 1
 fi
-
-# Try to install vmdpy (may fail, that's OK)
-echo "Installing vmdpy (optional)..."
-pip install --timeout=$PIP_TIMEOUT --default-timeout=$PIP_TIMEOUT vmdpy || echo "Warning: vmdpy installation failed, will use fallback"
-
-# Step 2: Create directories
 echo ""
-echo "Step 2: Creating directory structure..."
-mkdir -p data/{raw,processed}
-mkdir -p models/{checkpoints,embeddings}
-mkdir -p mining/payloads
+
+# Step 3: Create directories
+echo -e "${YELLOW}[3/5] Creating directories...${NC}"
 mkdir -p logs
-
-# Step 3: Data collection (optional - can be run separately)
+mkdir -p models/baseline
+mkdir -p models/tuned
+mkdir -p models/ensemble
+mkdir -p scripts/testing
+echo -e "${GREEN}✓ Directories created${NC}"
 echo ""
-echo "Step 3: Data collection..."
-read -p "Do you want to collect data now? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Starting data collection (this may take 1-2 hours)..."
-    python scripts/data_collection/collect_all_data.py \
-        --start-date 2019-09-01 \
-        --output-dir data/raw
+
+# Step 4: Check data
+echo -e "${YELLOW}[4/5] Checking data files...${NC}"
+if [ -d "data" ]; then
+    data_count=$(ls data/*.csv 2>/dev/null | wc -l)
+    if [ $data_count -gt 0 ]; then
+        echo -e "${GREEN}✓ Found $data_count data files${NC}"
+        echo "Data files:"
+        ls -1 data/*.csv | head -5
+    else
+        echo -e "${RED}✗ No CSV files found in data/${NC}"
+        echo "Please add OHLCV data files"
+    fi
 else
-    echo "Skipping data collection. Run manually with:"
-    echo "  python scripts/data_collection/collect_all_data.py --start-date 2019-09-01"
+    echo -e "${RED}✗ data/ directory not found${NC}"
+    mkdir -p data
+    echo "Created data/ directory - please add data files"
 fi
-
-# Step 4: Training (optional - can be run separately)
 echo ""
-echo "Step 4: Model training..."
-read -p "Do you want to train models now? (y/n) " -n 1 -r
-echo
-if [[ $REPLY =~ ^[Yy]$ ]]; then
-    echo "Training models (this may take several hours)..."
-    echo "Training ETH model as example..."
-    python scripts/training/train_model.py \
-        --ticker ETH \
-        --data-dir data/raw \
-        --train-start 2020-01-01 \
-        --train-end 2023-12-31 \
-        --val-start 2024-01-01 \
-        --val-end 2024-12-31 \
-        --epochs 100
+
+# Step 5: Check if training script exists
+echo -e "${YELLOW}[5/5] Checking training script...${NC}"
+if [ -f "scripts/training/train_all_challenges.py" ]; then
+    echo -e "${GREEN}✓ Training script exists${NC}"
 else
-    echo "Skipping training. Run manually with:"
-    echo "  python scripts/training/train_model.py --ticker ETH --data-dir data/raw"
+    echo -e "${YELLOW}⚠ Training script not found${NC}"
+    echo "TODO: Copy code from TRAIN_ALL_CHALLENGES_GUIDE.md to:"
+    echo "      scripts/training/train_all_challenges.py"
 fi
-
 echo ""
+
+# Summary
 echo "=========================================="
-echo "Quick Start Complete!"
+echo "  SETUP COMPLETE!"
 echo "=========================================="
 echo ""
 echo "Next steps:"
-echo "1. Collect data: python scripts/data_collection/collect_all_data.py"
-echo "2. Train models: python scripts/training/train_model.py --ticker ETH"
-echo "3. Backtest: python scripts/testing/backtest_accuracy.py --ticker ETH --model-path models/checkpoints/ETH"
-echo "4. Start mining: python mining/miner.py --wallet.name your_wallet --wallet.hotkey your_hotkey"
 echo ""
-echo "See MINING_IMPLEMENTATION_GUIDE.md for detailed instructions."
-
+echo "1. Create training script (if not done):"
+echo "   Copy code from TRAIN_ALL_CHALLENGES_GUIDE.md"
+echo "   to scripts/training/train_all_challenges.py"
+echo ""
+echo "2. Test single challenge:"
+echo "   python scripts/training/train_all_challenges.py --single ETHUSDT"
+echo ""
+echo "3. Start full training:"
+echo "   python scripts/training/train_all_challenges.py --tune --trials 30"
+echo ""
+echo "4. Follow EXECUTE_STEP_BY_STEP.md for complete guide"
+echo ""
+echo "Good luck! 🚀"

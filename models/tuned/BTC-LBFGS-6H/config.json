@@ -1,0 +1,7 @@
+{
+  "embedding_dim": 17,
+  "lstm_hidden": 256,
+  "lstm_layers": 3,
+  "time_steps": 25,
+  "dropout": 0.27954740340919576
+}

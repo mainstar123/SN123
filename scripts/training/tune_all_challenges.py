@@ -20,6 +20,26 @@ from scripts.training.check_training_results import check_model_results
 import config
 
 
+def make_json_serializable(obj):
+    """Convert frozendict and other non-serializable objects to JSON-serializable format"""
+    if isinstance(obj, dict):
+        return {k: make_json_serializable(v) for k, v in obj.items()}
+    elif isinstance(obj, (list, tuple)):
+        return [make_json_serializable(item) for item in obj]
+    elif isinstance(obj, (np.integer, np.floating)):
+        return float(obj)
+    elif isinstance(obj, np.ndarray):
+        return obj.tolist()
+    elif hasattr(obj, '__dict__'):
+        # Handle frozendict and similar objects
+        try:
+            return dict(obj)
+        except (TypeError, ValueError):
+            return str(obj)
+    else:
+        return obj
+
+
 def get_search_space(challenge_type='binary'):
     """
     Get hyperparameter search space based on challenge type
@@ -145,29 +165,46 @@ def tune_challenge(ticker: str, challenge: dict, data_dir: str,
     for i, hp_config in enumerate(search_space):
         config_name = f"h{hp_config['lstm_hidden']}_f{hp_config['tmfg_n_features']}_d{hp_config['dropout']}_lr{hp_config['learning_rate']}"
         config_model_dir = os.path.join(tuning_dir, ticker, config_name)
+        model_path = os.path.join(config_model_dir, ticker)
         
         print(f"\n[{i+1}/{len(search_space)}] Testing: {config_name}")
         print(f"  LSTM Hidden: {hp_config['lstm_hidden']}, Features: {hp_config['tmfg_n_features']}")
         print(f"  Dropout: {hp_config['dropout']}, LR: {hp_config['learning_rate']}")
         
+        # Check if model already exists and is complete
+        required_files = ['lstm_model.h5', 'xgb_model.json', 'scaler.pkl', 
+                         'feature_indices.pkl', 'config.json']
+        model_exists = os.path.exists(model_path)
+        if model_exists:
+            all_files_exist = all(os.path.exists(os.path.join(model_path, f)) for f in required_files)
+            if all_files_exist:
+                print(f"  ⏭️  Model already exists, skipping training...")
+                train_result = {'success': True, 'skipped': True}
+            else:
+                print(f"  ⚠️  Model directory exists but incomplete, retraining...")
+                train_result = None
+        else:
+            train_result = None
+        
         try:
-            # Train model
-            train_result = train_ticker_model(
-                ticker=data_ticker,
-                data_dir=data_dir,
-                model_dir=config_model_dir,
-                embedding_dim=embedding_dim,
-                train_end='2023-12-31',
-                val_end='2024-12-31',
-                epochs=epochs,
-                batch_size=batch_size,
-                challenge_ticker=ticker,
-                use_gpu=True,
-                lstm_hidden=hp_config['lstm_hidden'],
-                tmfg_n_features=hp_config['tmfg_n_features'],
-                dropout=hp_config['dropout'],
-                learning_rate=hp_config['learning_rate']
-            )
+            # Train model if needed
+            if train_result is None:
+                train_result = train_ticker_model(
+                    ticker=data_ticker,
+                    data_dir=data_dir,
+                    model_dir=config_model_dir,
+                    embedding_dim=embedding_dim,
+                    train_end='2023-12-31',
+                    val_end='2024-12-31',
+                    epochs=epochs,
+                    batch_size=batch_size,
+                    challenge_ticker=ticker,
+                    use_gpu=True,
+                    lstm_hidden=hp_config['lstm_hidden'],
+                    tmfg_n_features=hp_config['tmfg_n_features'],
+                    dropout=hp_config['dropout'],
+                    learning_rate=hp_config['learning_rate']
+                )
             
             if not train_result.get('success'):
                 print(f"  ✗ Training failed: {train_result.get('error', 'Unknown error')}")
@@ -418,6 +455,8 @@ def main():
             }
             for ticker, result in successful.items()
         }
+        # Convert to JSON-serializable format
+        best_configs = make_json_serializable(best_configs)
         with open(best_configs_file, 'w') as f:
             json.dump(best_configs, f, indent=2)
         print(f"Best configurations saved to {best_configs_file}")

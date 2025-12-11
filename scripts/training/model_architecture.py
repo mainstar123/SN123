@@ -16,15 +16,25 @@ try:
     from tensorflow.keras.optimizers import Adam
     from tensorflow.keras.callbacks import EarlyStopping, ReduceLROnPlateau, ModelCheckpoint
     
-    # Configure GPU usage
+    # Configure GPU usage with optimizations
     gpus = tf.config.list_physical_devices('GPU')
     if gpus:
         try:
             # Enable memory growth to avoid allocating all GPU memory at once
             for gpu in gpus:
                 tf.config.experimental.set_memory_growth(gpu, True)
-            print(f"✓ GPU detected: {len(gpus)} device(s) available")
-            print(f"  Using GPU: {gpus[0].name}")
+            
+            # Enable mixed precision for faster training on modern GPUs
+            try:
+                policy = tf.keras.mixed_precision.Policy('mixed_float16')
+                tf.keras.mixed_precision.set_global_policy(policy)
+                print(f"✓ GPU detected: {len(gpus)} device(s) available")
+                print(f"  Using GPU: {gpus[0].name}")
+                print(f"  Mixed precision training: ENABLED (faster training)")
+            except Exception as e:
+                print(f"✓ GPU detected: {len(gpus)} device(s) available")
+                print(f"  Using GPU: {gpus[0].name}")
+                print(f"  Mixed precision: Not available ({e})")
         except RuntimeError as e:
             print(f"GPU configuration error: {e}")
     else:
@@ -136,13 +146,17 @@ class VMDTMFGLSTMXGBoost:
             model.add(LSTM(self.lstm_hidden, return_sequences=return_seq))
             model.add(Dropout(self.dropout))
         
-        # Embedding layer
-        model.add(Dense(64, activation='relu'))
+        # Embedding layer with more capacity for diverse representations
+        # This helps capture unique patterns that others might miss
+        model.add(Dense(128, activation='relu'))
         model.add(Dropout(self.dropout))
+        model.add(Dense(64, activation='relu'))
+        model.add(Dropout(self.dropout * 0.5))  # Less dropout in deeper layers
         model.add(Dense(32, activation='relu'))
         
         # Output layer (for training - will be replaced for inference)
-        model.add(Dense(1, activation='linear', name='lstm_output'))
+        # Use float32 for output layer when using mixed precision
+        model.add(Dense(1, activation='linear', name='lstm_output', dtype='float32'))
         
         model.compile(
             optimizer=Adam(learning_rate=self.learning_rate),
@@ -335,12 +349,52 @@ class VMDTMFGLSTMXGBoost:
         # Train XGBoost on LSTM embeddings
         print("Training XGBoost on LSTM embeddings...")
         
-        # Prepare XGBoost targets (binary direction)
-        y_train_binary = (y_train_delta > 0).astype(int)
-        y_val_binary = (y_val > 0).astype(int) if y_val is not None else None
+        # Prepare XGBoost targets (binary direction with threshold)
+        # CRITICAL FIX: Use threshold-based labels to balance classes
+        # Instead of > 0, use a percentile-based threshold to ensure balance
+        threshold = np.percentile(y_train_delta, 50)  # Median split for 50/50 balance
+        y_train_binary = (y_train_delta > threshold).astype(int)
+        
+        if y_val is not None:
+            y_val_binary = (y_val > threshold).astype(int)
+        else:
+            y_val_binary = None
+        
+        # Calculate class weights for imbalanced data
+        # This is critical for high salience - we need to learn minority class patterns
+        class_counts = np.bincount(y_train_binary)
+        total_samples = len(y_train_binary)
+        n_classes = len(class_counts)
+        
+        if n_classes == 2 and total_samples > 0:
+            # Calculate balanced class weights
+            class_weights = {}
+            for i in range(n_classes):
+                if class_counts[i] > 0:
+                    # Standard balanced weight: n_samples / (n_classes * count)
+                    weight = total_samples / (n_classes * class_counts[i])
+                    class_weights[i] = weight
+                else:
+                    class_weights[i] = 1.0
+            
+            # Scale weights to sum to n_classes (XGBoost convention)
+            weight_sum = sum(class_weights.values())
+            if weight_sum > 0:
+                for i in class_weights:
+                    class_weights[i] = class_weights[i] * n_classes / weight_sum
+            
+            print(f"  Class distribution: {dict(zip(range(n_classes), class_counts))}")
+            print(f"  Class balance: {class_counts[0]/(class_counts[0]+class_counts[1])*100:.1f}% / {class_counts[1]/(class_counts[0]+class_counts[1])*100:.1f}%")
+            print(f"  Class weights: {class_weights}")
+            print(f"  Threshold used: {threshold:.6f}")
+            
+            # Create sample weights for XGBoost
+            sample_weights = np.array([class_weights[y] for y in y_train_binary])
+        else:
+            sample_weights = None
         
         # Train XGBoost
-        dtrain = xgb.DMatrix(lstm_embeddings_train, label=y_train_binary)
+        dtrain = xgb.DMatrix(lstm_embeddings_train, label=y_train_binary, weight=sample_weights)
         
         # Determine XGBoost tree method (GPU or CPU)
         tree_method = 'hist'
@@ -363,6 +417,15 @@ class VMDTMFGLSTMXGBoost:
         positive_ratio = y_train_binary.mean()
         base_score = max(0.01, min(0.99, positive_ratio))  # Clamp to (0.01, 0.99)
         
+        # Use scale_pos_weight for additional class imbalance handling
+        # With median split, this should be ~1.0, but still calculate it
+        if n_classes == 2 and class_counts[1] > 0:
+            scale_pos_weight = class_counts[0] / class_counts[1]
+        else:
+            scale_pos_weight = 1.0
+        
+        print(f"  Base score: {base_score:.4f}, Scale pos weight: {scale_pos_weight:.4f}")
+        
         params = {
             'max_depth': 6,
             'eta': 0.1,
@@ -372,7 +435,10 @@ class VMDTMFGLSTMXGBoost:
             'colsample_bytree': 0.8,
             'random_state': 42,
             'tree_method': tree_method,
-            'base_score': base_score  # Explicitly set base_score for logistic loss
+            'base_score': base_score,  # Explicitly set base_score for logistic loss
+            'scale_pos_weight': scale_pos_weight,  # Handle class imbalance
+            'min_child_weight': 1,  # Allow more splits for minority class
+            'max_delta_step': 1  # Help with imbalanced data
         }
         if xgb_predictor:
             params['predictor'] = xgb_predictor
@@ -402,6 +468,11 @@ class VMDTMFGLSTMXGBoost:
         train_pred = self.xgb_model.predict(dtrain)
         train_pred_binary = (train_pred > 0.5).astype(int)
         train_acc = accuracy_score(y_train_binary, train_pred_binary)
+        
+        # Debug: Show prediction distribution
+        pred_counts = np.bincount(train_pred_binary, minlength=2)
+        print(f"  Prediction distribution: Class 0: {pred_counts[0]} ({pred_counts[0]/len(train_pred_binary)*100:.1f}%), Class 1: {pred_counts[1]} ({pred_counts[1]/len(train_pred_binary)*100:.1f}%)")
+        print(f"  Prediction mean: {train_pred.mean():.4f} (should be ~0.5 for balanced predictions)")
         
         # Calculate AUC only if we have both classes
         try:

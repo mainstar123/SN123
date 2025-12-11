@@ -1,0 +1,10 @@
+kyle_lambda
+volatility_20
+illiquidity
+volatility_12h
+obv
+trend_strength
+vmd_imf_8
+oc_spread
+log_returns
+returns

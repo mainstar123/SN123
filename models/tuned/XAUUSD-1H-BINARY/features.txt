@@ -1,0 +1,10 @@
+momentum_10
+dist_from_ma_12h
+momentum_5
+volatility_24h
+bb_width
+momentum_20
+roc_5
+vol_ratio_12_24
+log_returns
+returns

@@ -1,0 +1,29 @@
+[Unit]
+Description=MANTIS Multi-Challenge Training Service
+After=network.target
+
+[Service]
+Type=simple
+User=ocean
+Group=ocean
+WorkingDirectory=/home/ocean/MANTIS
+Environment="PATH=/home/ocean/MANTIS/venv/bin:/usr/local/bin:/usr/bin:/bin"
+
+# Run training with all options
+ExecStart=/home/ocean/MANTIS/venv/bin/python /home/ocean/MANTIS/scripts/training/train_all_challenges.py
+
+# Restart policy
+Restart=on-failure
+RestartSec=10
+
+# Logging
+StandardOutput=append:/home/ocean/MANTIS/logs/training/service.log
+StandardError=append:/home/ocean/MANTIS/logs/training/service_error.log
+
+# Resource limits (optional)
+# LimitNOFILE=65536
+# MemoryLimit=16G
+
+[Install]
+WantedBy=multi-user.target
+

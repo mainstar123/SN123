@@ -1,0 +1,10 @@
+roc_10
+volatility_12h
+volatility_10
+volatility_20
+momentum_20
+dist_from_ma_12h
+price_ema_20_ratio
+vol_ratio_12_24
+log_returns
+returns

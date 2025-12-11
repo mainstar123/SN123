@@ -1,0 +1,10 @@
+momentum_accel
+momentum_20
+volatility_24h
+momentum_10
+bb_width
+momentum_5
+vol_ratio_12_24
+illiquidity
+log_returns
+returns

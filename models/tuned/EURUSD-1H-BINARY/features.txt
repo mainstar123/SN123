@@ -1,0 +1,10 @@
+zscore_12h
+dist_from_ma_24h
+volatility_20
+bb_width
+roc_10
+volatility_10
+vol_ratio_12_24
+illiquidity
+log_returns
+returns

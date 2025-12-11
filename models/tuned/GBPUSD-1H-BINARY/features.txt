@@ -1,0 +1,10 @@
+dist_from_ma_24h
+roc_20
+volatility_20
+kyle_lambda
+momentum_20
+bb_width_20
+vol_ratio_12_24
+illiquidity
+returns
+log_returns

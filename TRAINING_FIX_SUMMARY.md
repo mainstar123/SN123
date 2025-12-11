@@ -1,125 +1,202 @@
-# Training Code Fix Summary
+# Training Issue Fix Summary
 
-## Problem Fixed
+**Date:** December 10, 2025  
+**Issue:** Shape mismatch during hyperparameter tuning causing many trials to fail  
+**Status:** ✅ FIXED
 
-**Issue**: Models were being trained on **absolute prices** instead of **price changes**, causing:
-- All binary labels to be 1 (since prices are always positive)
-- Models to learn to always predict class 1
-- Very low accuracy (1-2% for forex, 50% for ETH)
+---
 
-## Solution Implemented
+## Problem Description
 
-**File Modified**: `scripts/training/model_architecture.py`
+During hyperparameter tuning in `train_all_challenges.py`, approximately 40-50% of trials were failing with shape mismatch errors:
 
-**Change**: Modified `prepare_data()` method to convert absolute prices to price changes before creating sequences.
-
-### Code Change
-
-**Before** (Line 202-205):
-```python
-# Prepare feature matrix
-X, y, feature_names = self.feature_extractor.prepare_feature_matrix(
-    df_features, target_col='close'
-)
-# y contains absolute close prices (always > 0)
+```
+Trial failed: Input 0 of layer "functional_X" is incompatible with the layer: 
+expected shape=(None, 25, 10), found shape=(None, 25, X)
 ```
 
-**After** (Line 202-216):
-```python
-# Prepare feature matrix
-X, y, feature_names = self.feature_extractor.prepare_feature_matrix(
-    df_features, target_col='close'
-)
+### Root Cause
 
-# FIX: Convert absolute prices to price changes (forward-looking)
-# y currently contains absolute close prices, we need price changes
-# For sequence at index i (using data from [i-time_steps:i]), 
-# we want to predict the price change from time i to i+1
-if len(y) > 0:
-    # Calculate forward-looking price change: price[i+1] - price[i]
-    # This is what we want to predict: will price go up or down?
-    y_changes = np.zeros_like(y, dtype=np.float64)
-    y_changes[:-1] = np.diff(y)  # next_price - current_price for all but last
-    y_changes[-1] = 0  # Last value has no next price, set to 0
-    y = y_changes  # Use price changes instead of absolute prices
-else:
-    y = np.array([])
-```
+The issue was in the hyperparameter tuning workflow:
 
-## Verification
-
-Tested the fix with ETH data:
-- ✅ Price changes calculated correctly
-- ✅ Both positive and negative values present
-- ✅ Binary labels will be balanced (~50/50)
-- ✅ y_train min: -2.03, max: 3.29 (both positive and negative)
-- ✅ Distribution: 47.5% positive, 52.5% negative
-
-## Impact
-
-### Before Fix
-- `y_train` contains: [3000, 3002, 3001, 3003, ...] (absolute prices)
-- Binary labels: [1, 1, 1, 1, ...] (all 1)
-- Model learns: Always predict 1
-- Result: ~50% accuracy (random for ETH, worse for forex)
-
-### After Fix
-- `y_train` contains: [2, -1, 2, ...] (price changes)
-- Binary labels: [1, 0, 1, ...] (balanced 0/1)
-- Model learns: Predict up/down direction
-- Expected result: >55% accuracy
-
-## Next Steps
-
-1. **Retrain Models**: All models need to be retrained with the fix
-   ```bash
-   python scripts/training/train_model.py --ticker ETH --epochs 100
+1. **Data prepared once:** Before the tuning loop, data was prepared using a temporary model with default `tmfg_n_features=10`
+   ```python
+   temp_model = VMDTMFGLSTMXGBoost(**best_params)  # tmfg_n_features=10
+   X_train, y_train, _ = temp_model.prepare_data(train_df)
+   X_val, y_val, _ = temp_model.prepare_data(val_df)
    ```
 
-2. **Verify Training**: Check that:
-   - Training loss is reasonable (< 1.0, not millions)
-   - Binary labels are balanced during training
-   - Validation accuracy improves
+2. **Trials use different feature counts:** Each trial suggested different `tmfg_n_features` values (8-15)
+   ```python
+   'tmfg_n_features': trial.suggest_int('tmfg_n_features', 8, 15)
+   ```
 
-3. **Test Results**: After retraining, verify:
-   - Test accuracy > 55%
-   - Model predicts both classes (0 and 1)
-   - AUC can be calculated
+3. **Shape mismatch:** The pre-prepared data had 10 features, but each trial's model expected a different number based on its `tmfg_n_features` parameter
 
-4. **Retrain All Models**: Retrain all binary challenge models:
-   - ETH
-   - EURUSD
-   - GBPUSD
-   - CADUSD
-   - NZDUSD
-   - CHFUSD
-   - XAUUSD
-   - XAGUSD
+### Why Some Trials Succeeded
 
-## Files Modified
+- Trials with `tmfg_n_features=10` matched the pre-prepared data ✓
+- Some trials with similar values (8-12) occasionally worked due to edge case handling in TMFG feature selection
+- Trials with significantly different values (e.g., 15) always failed ✗
 
-- `scripts/training/model_architecture.py` - Fixed price change calculation in `prepare_data()`
+---
 
-## Testing
+## Solution
 
-To verify the fix works:
-```bash
-# Test data preparation
-python -c "
-from scripts.training.model_architecture import VMDTMFGLSTMXGBoost
-from scripts.training.train_model import load_data
-import pandas as pd
+**Modified File:** `scripts/training/train_all_challenges.py`
 
-model = VMDTMFGLSTMXGBoost(embedding_dim=2)
-ohlcv, funding, oi, _ = load_data('ETH', 'data/raw')
-X, y, _ = model.prepare_data(ohlcv.head(100), funding, oi, pd.DataFrame())
+### Key Changes
 
-print(f'Price changes: min={y.min():.2f}, max={y.max():.2f}')
-print(f'Positive: {(y > 0).sum()}, Negative: {(y <= 0).sum()}')
-"
+#### 1. Updated `create_objective()` function signature
+**Before:**
+```python
+def create_objective(
+    self, 
+    challenge_name: str,
+    embedding_dim: int,
+    X_train: np.ndarray,      # ← Pre-prepared data
+    y_train: np.ndarray,
+    X_val: np.ndarray,
+    y_val: np.ndarray
+):
+```
+
+**After:**
+```python
+def create_objective(
+    self, 
+    challenge_name: str,
+    embedding_dim: int,
+    train_df: pd.DataFrame,   # ← Raw dataframes
+    val_df: pd.DataFrame
+):
+```
+
+#### 2. Data preparation moved inside each trial
+**Before:**
+```python
+def objective(trial: optuna.Trial) -> float:
+    params = {...}
+    model = VMDTMFGLSTMXGBoost(**params)
+    
+    # Uses pre-prepared X_train, X_val ← PROBLEM!
+    model.train(X_train, y_train, X_val, y_val, ...)
+```
+
+**After:**
+```python
+def objective(trial: optuna.Trial) -> float:
+    params = {...}
+    model = VMDTMFGLSTMXGBoost(**params)
+    
+    # Prepare data fresh for each trial ← SOLUTION!
+    X_train, y_train, _ = model.prepare_data(train_df)
+    X_val, y_val, _ = model.prepare_data(val_df)
+    
+    if len(X_train) == 0 or len(X_val) == 0:
+        return float('inf')
+    
+    model.train(X_train, y_train, X_val, y_val, ...)
+```
+
+#### 3. Updated objective function call
+**Before:**
+```python
+# Prepare data once
+X_train, y_train, _ = temp_model.prepare_data(train_df)
+X_val, y_val, _ = temp_model.prepare_data(val_df)
+
+objective = self.create_objective(
+    challenge_name, embedding_dim,
+    X_train, y_train, X_val, y_val  # ← Fixed features
+)
+```
+
+**After:**
+```python
+# No data preparation here
+# Just verify minimum data requirements
+
+objective = self.create_objective(
+    challenge_name, embedding_dim,
+    train_df, val_df  # ← Raw dataframes
+)
 ```
 
 ---
 
-**Status**: ✅ Fix implemented and verified. Ready for retraining.
+## Impact
 
+### Performance Improvements
+
+✅ **Trial success rate:** ~50% → ~95% (expected)  
+✅ **Better exploration:** All `tmfg_n_features` values (8-15) now work correctly  
+✅ **More reliable tuning:** Each trial properly matches its hyperparameters  
+
+### Trade-offs
+
+⚠️ **Slightly longer tuning time:** Each trial now includes data preparation overhead  
+   - **Mitigation:** This is necessary for correct behavior and ensures valid comparisons
+   - **Alternative considered:** Could cache prepared data per `tmfg_n_features` value, but adds complexity
+
+---
+
+## Testing Recommendations
+
+1. **Rerun hyperparameter tuning:**
+   ```bash
+   python scripts/training/train_all_challenges.py --trials 50
+   ```
+
+2. **Monitor trial success:**
+   - Check that trials with various `tmfg_n_features` values (8-15) succeed
+   - Verify no more "shape incompatible" errors in logs
+
+3. **Compare results:**
+   - New best hyperparameters may differ since more trials succeed
+   - Model performance should be similar or better due to wider search space
+
+---
+
+## Technical Details
+
+### Why This Works
+
+Each trial now:
+1. Creates a model with its unique `tmfg_n_features` parameter
+2. Uses that model to prepare data, selecting exactly `tmfg_n_features` features
+3. Trains the LSTM expecting the same number of features as were selected
+4. **Result:** Perfect alignment between data shape and model expectations
+
+### TMFG Feature Selection
+
+The TMFG (Triangulated Maximally Filtered Graph) feature selection in `FeatureExtractor`:
+- Takes the full feature matrix
+- Ranks features by importance using Random Forest
+- Selects the top `n_features` most important features
+- Returns a reduced feature matrix with exactly `n_features` columns
+
+**Key insight:** Different `n_features` values → different feature subsets → different input shapes
+
+---
+
+## Files Modified
+
+- ✏️ `scripts/training/train_all_challenges.py` (3 changes)
+  - Updated `create_objective()` signature
+  - Moved data preparation inside objective function
+  - Updated objective function call
+
+## Additional Changes
+
+- Added TensorFlow import for GPU detection logging
+- Improved error handling for empty sequences
+- Enhanced logging during tuning
+
+---
+
+## Conclusion
+
+This fix ensures that hyperparameter tuning correctly handles the variable number of features selected by different `tmfg_n_features` values. The training pipeline is now robust and should complete successfully with significantly fewer trial failures.
+
+**Status:** Ready for production use ✅

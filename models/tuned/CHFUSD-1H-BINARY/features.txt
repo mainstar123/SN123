@@ -1,0 +1,10 @@
+price_sma_20_ratio
+volatility_10
+vol_ratio_12_24
+volatility_12h
+bb_width_20
+bb_width
+zscore_24h
+illiquidity
+log_returns
+returns
