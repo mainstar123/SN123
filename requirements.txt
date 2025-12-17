@@ -2,7 +2,6 @@ bittensor
 torch
 requests
 aiohttp
-timelock
 python-dotenv==1.1.1
 boto3 
 numpy

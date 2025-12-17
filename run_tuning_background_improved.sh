@@ -132,6 +132,14 @@ python -c "import tensorflow, xgboost, pandas, numpy, sklearn" 2>/dev/null || {
     exit 1
 }
 
+# Set TensorFlow environment variables for GPU optimization
+export TF_FORCE_GPU_ALLOW_GROWTH=true
+export TF_GPU_THREAD_MODE=gpu_private
+export TF_GPU_THREAD_COUNT=2
+export CUDA_VISIBLE_DEVICES=0
+
+log "GPU environment variables set for TensorFlow"
+
 # Start tuning
 update_status "RUNNING"
 

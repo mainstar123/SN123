@@ -4,9 +4,22 @@
 
 TICKER="ETH"
 EPOCHS=100
-BATCH_SIZE=64
+# GPU-optimized batch size (increased from 64 to 128)
+BATCH_SIZE=128
 
-echo "Quick Hyperparameter Tuning for $TICKER"
+# Check for GPU and adjust batch size
+if command -v nvidia-smi &> /dev/null && nvidia-smi &> /dev/null; then
+    echo "✓ GPU detected, using batch size: $BATCH_SIZE"
+    export TF_FORCE_GPU_ALLOW_GROWTH=true
+    export TF_GPU_THREAD_MODE=gpu_private
+    export CUDA_VISIBLE_DEVICES=0
+else
+    BATCH_SIZE=64
+    echo "⚠️  No GPU detected, using CPU batch size: $BATCH_SIZE"
+fi
+
+echo ""
+echo "Quick Hyperparameter Tuning for $TICKER (GPU Optimized)"
 echo "========================================"
 
 # Configuration 1: Current (baseline)

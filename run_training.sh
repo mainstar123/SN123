@@ -1,358 +1,238 @@
 #!/bin/bash
-###############################################################################
-# MANTIS Hyperparameter Tuning - Background Training Script
-# 
-# This script runs hyperparameter tuning for all challenges in the background
-# with proper logging, monitoring, and error handling.
-#
-# Usage:
-#   ./run_training.sh [OPTIONS]
-#
-# Options:
-#   --trials N      Number of trials per challenge (default: 50)
-#   --challenge X   Train only specific challenge (optional)
-#   --quick         Quick mode: fewer trials for testing
-#   --stop          Stop any running training
-#   --status        Check training status
-###############################################################################
 
-set -e  # Exit on error
+################################################################################
+# MANTIS Hyperparameter Tuning Runner
+# Simplified script to run hyperparameter tuning
+################################################################################
 
 # Colors for output
-RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
-BLUE='\033[0;34m'
+RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-# Configuration
-PROJECT_DIR="/home/ocean/MANTIS"
-VENV_DIR="$PROJECT_DIR/venv"
-LOG_DIR="$PROJECT_DIR/logs/training"
-SCRIPT="$PROJECT_DIR/scripts/training/train_all_challenges.py"
-PID_FILE="$LOG_DIR/training.pid"
-TIMESTAMP=$(date +%Y%m%d_%H%M%S)
-LOG_FILE="$LOG_DIR/training_${TIMESTAMP}.log"
-CURRENT_LOG="$LOG_DIR/training_current.log"
+# Default values
+DATA_DIR="data"
+TUNING_DIR="models/tuned"
+EPOCHS=100
+BATCH_SIZE=128
+TICKER=""
+CHALLENGE_TYPE=""
+MODE="all"
 
-# Default options
-TRIALS=50
-CHALLENGE=""
-QUICK_MODE=false
-ACTION="start"
-
-###############################################################################
-# Helper Functions
-###############################################################################
-
-print_header() {
-    echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-    echo -e "${BLUE}  $1${NC}"
-    echo -e "${BLUE}═══════════════════════════════════════════════════════════════${NC}"
-}
-
-print_success() {
-    echo -e "${GREEN}✓ $1${NC}"
-}
-
-print_error() {
-    echo -e "${RED}✗ $1${NC}"
-}
-
-print_warning() {
-    echo -e "${YELLOW}⚠ $1${NC}"
-}
-
-print_info() {
-    echo -e "${BLUE}ℹ $1${NC}"
-}
-
-check_requirements() {
-    print_header "Checking Requirements"
-    
-    # Check if virtual environment exists
-    if [ ! -d "$VENV_DIR" ]; then
-        print_error "Virtual environment not found at $VENV_DIR"
-        print_info "Run: python3 -m venv venv && source venv/bin/activate && pip install -r requirements.txt"
-        exit 1
-    fi
-    print_success "Virtual environment found"
-    
-    # Check if training script exists
-    if [ ! -f "$SCRIPT" ]; then
-        print_error "Training script not found at $SCRIPT"
-        exit 1
-    fi
-    print_success "Training script found"
-    
-    # Create log directory if it doesn't exist
-    mkdir -p "$LOG_DIR"
-    print_success "Log directory ready: $LOG_DIR"
-    
+# Help message
+show_help() {
+    echo "Usage: ./run_training.sh [OPTIONS]"
     echo ""
-}
-
-check_status() {
-    print_header "Training Status"
-    
-    if [ -f "$PID_FILE" ]; then
-        PID=$(cat "$PID_FILE")
-        if ps -p "$PID" > /dev/null 2>&1; then
-            print_success "Training is RUNNING (PID: $PID)"
-            
-            # Show current challenge
-            if [ -f "$CURRENT_LOG" ]; then
+    echo "Options:"
+    echo "  --ticker NAME       Train only specific ticker (e.g., ETH-LBFGS)"
+    echo "  --challenge-type T  Train only specific type: binary, lbfgs, or hitfirst"
+    echo "  --data-dir PATH     Data directory (default: data)"
+    echo "  --tuning-dir PATH   Output directory (default: models/tuned)"
+    echo "  --epochs N          Epochs per config (default: 100)"
+    echo "  --batch-size N      Batch size (default: 128)"
+    echo "  --help              Show this help message"
                 echo ""
-                print_info "Current Progress:"
-                tail -20 "$CURRENT_LOG" | grep -E "(Training Challenge|Progress:|Trial [0-9]+:|Best trial)" | tail -5
-            fi
-            
-            # Show resource usage
+    echo "Examples:"
+    echo "  ./run_training.sh                              # Train all challenges"
+    echo "  ./run_training.sh --ticker ETH-LBFGS          # Train only ETH-LBFGS"
+    echo "  ./run_training.sh --challenge-type binary     # Train only binary challenges"
+    echo "  ./run_training.sh --epochs 150                # Train with 150 epochs"
             echo ""
-            print_info "Resource Usage:"
-            ps -p "$PID" -o pid,ppid,%cpu,%mem,etime,cmd --no-headers | awk '{printf "  PID: %s | CPU: %s%% | Memory: %s%% | Runtime: %s\n", $1, $3, $4, $5}'
-            
-            # Show log file
+    echo "Note: The script tests predefined configurations:"
+    echo "  - Binary: 13 configs, LBFGS: 7 configs, HITFIRST: 5 configs"
             echo ""
-            print_info "Log file: $CURRENT_LOG"
-            print_info "Monitor with: tail -f $CURRENT_LOG"
-            
-            return 0
-        else
-            print_warning "PID file exists but process not running"
-            rm -f "$PID_FILE"
-        fi
-    fi
-    
-    print_info "No training currently running"
-    return 1
 }
 
-stop_training() {
-    print_header "Stopping Training"
-    
-    if [ -f "$PID_FILE" ]; then
-        PID=$(cat "$PID_FILE")
-        if ps -p "$PID" > /dev/null 2>&1; then
-            print_info "Sending termination signal to PID $PID..."
-            kill "$PID" 2>/dev/null || true
-            
-            # Wait for graceful shutdown
-            print_info "Waiting for graceful shutdown (10 seconds)..."
-            for i in {1..10}; do
-                if ! ps -p "$PID" > /dev/null 2>&1; then
-                    print_success "Training stopped gracefully"
-                    rm -f "$PID_FILE"
-                    return 0
-                fi
-                sleep 1
-            done
-            
-            # Force kill if still running
-            if ps -p "$PID" > /dev/null 2>&1; then
-                print_warning "Force killing process..."
-                kill -9 "$PID" 2>/dev/null || true
-                sleep 1
-            fi
-            
-            rm -f "$PID_FILE"
-            print_success "Training stopped"
-        else
-            print_warning "PID file exists but process not running"
-            rm -f "$PID_FILE"
-        fi
-    else
-        print_info "No training currently running"
-    fi
-}
-
-start_training() {
-    print_header "Starting Hyperparameter Tuning"
-    
-    # Check if already running
-    if [ -f "$PID_FILE" ]; then
-        PID=$(cat "$PID_FILE")
-        if ps -p "$PID" > /dev/null 2>&1; then
-            print_error "Training already running (PID: $PID)"
-            print_info "Use --stop to stop it first, or --status to check progress"
-            exit 1
-        else
-            print_warning "Cleaning up stale PID file"
-            rm -f "$PID_FILE"
-        fi
-    fi
-    
-    # Build command
-    CMD="python $SCRIPT --trials $TRIALS"
-    if [ -n "$CHALLENGE" ]; then
-        CMD="$CMD --challenge $CHALLENGE"
-        print_info "Training challenge: $CHALLENGE"
-    else
-        print_info "Training all challenges"
-    fi
-    print_info "Trials per challenge: $TRIALS"
-    
-    # Start training in background
-    print_info "Starting training in background..."
-    
-    cd "$PROJECT_DIR"
-    source "$VENV_DIR/bin/activate"
-    
-    # Start with logging wrapper
-    (
-        echo "=============================================="
-        echo "MANTIS Training Started"
-        echo "Time: $(date)"
-        echo "PID: $$"
-        echo "=============================================="
-        echo ""
-        
-        # Run training
-        $CMD 2>&1
-        
-        EXIT_CODE=$?
-        
-        echo ""
-        echo "=============================================="
-        echo "Training Completed"
-        echo "Time: $(date)"
-        echo "Exit Code: $EXIT_CODE"
-        echo "=============================================="
-        
-        # Remove PID file on completion
-        rm -f "$PID_FILE"
-        
-        exit $EXIT_CODE
-    ) > "$LOG_FILE" 2>&1 &
-    
-    # Save PID
-    TRAINING_PID=$!
-    echo "$TRAINING_PID" > "$PID_FILE"
-    
-    # Create symlink to current log
-    ln -sf "$LOG_FILE" "$CURRENT_LOG"
-    
-    sleep 2
-    
-    # Verify it started
-    if ps -p "$TRAINING_PID" > /dev/null 2>&1; then
-        print_success "Training started successfully!"
-        echo ""
-        print_info "PID: $TRAINING_PID"
-        print_info "Log file: $LOG_FILE"
-        print_info "Current log: $CURRENT_LOG"
-        echo ""
-        print_success "Monitor progress with:"
-        echo "  tail -f $CURRENT_LOG"
-        echo ""
-        print_success "Check status with:"
-        echo "  ./run_training.sh --status"
-        echo ""
-        print_success "Stop training with:"
-        echo "  ./run_training.sh --stop"
-    else
-        print_error "Failed to start training"
-        print_info "Check log file: $LOG_FILE"
-        rm -f "$PID_FILE"
-        exit 1
-    fi
-}
-
-show_usage() {
-    cat << EOF
-Usage: ./run_training.sh [OPTIONS]
-
-Options:
-  --trials N       Number of trials per challenge (default: 50)
-  --challenge X    Train only specific challenge (optional)
-  --quick          Quick mode: 10 trials for testing
-  --stop           Stop any running training
-  --status         Check training status
-  --help           Show this help message
-
-Examples:
-  # Start training all challenges with 50 trials each
-  ./run_training.sh
-
-  # Start with 100 trials per challenge
-  ./run_training.sh --trials 100
-
-  # Train only one challenge
-  ./run_training.sh --challenge ETH-LBFGS
-
-  # Quick test with 10 trials
-  ./run_training.sh --quick
-
-  # Check status
-  ./run_training.sh --status
-
-  # Stop training
-  ./run_training.sh --stop
-
-Monitor logs:
-  tail -f $LOG_DIR/training_current.log
-
-EOF
-}
-
-###############################################################################
-# Parse Arguments
-###############################################################################
-
+# Parse arguments
 while [[ $# -gt 0 ]]; do
     case $1 in
-        --trials)
-            TRIALS="$2"
+        --ticker)
+            TICKER="$2"
+            MODE="single"
             shift 2
             ;;
-        --challenge)
-            CHALLENGE="$2"
+        --challenge-type)
+            CHALLENGE_TYPE="$2"
             shift 2
             ;;
-        --quick)
-            QUICK_MODE=true
-            TRIALS=10
-            shift
+        --epochs)
+            EPOCHS="$2"
+            shift 2
             ;;
-        --stop)
-            ACTION="stop"
-            shift
+        --batch-size)
+            BATCH_SIZE="$2"
+            shift 2
             ;;
-        --status)
-            ACTION="status"
-            shift
+        --data-dir)
+            DATA_DIR="$2"
+            shift 2
+            ;;
+        --tuning-dir)
+            TUNING_DIR="$2"
+            shift 2
             ;;
         --help)
-            show_usage
+            show_help
             exit 0
             ;;
         *)
-            print_error "Unknown option: $1"
-            show_usage
+            echo -e "${RED}Unknown option: $1${NC}"
+            show_help
             exit 1
             ;;
     esac
 done
 
-###############################################################################
-# Main
-###############################################################################
-
-clear
-print_header "MANTIS Hyperparameter Tuning Manager"
-
-case $ACTION in
-    start)
-        check_requirements
-        start_training
-        ;;
-    stop)
-        stop_training
-        ;;
-    status)
-        check_status
-        ;;
-esac
-
+echo "================================================================================"
+echo "🚀 MANTIS Hyperparameter Tuning"
+echo "================================================================================"
 echo ""
 
+# Pre-flight checks
+echo "📋 Pre-flight Checks:"
+echo ""
+
+# Check if data directory exists
+if [ ! -d "$DATA_DIR" ]; then
+    echo -e "${RED}✗ Data directory not found: $DATA_DIR${NC}"
+    exit 1
+else
+    echo -e "${GREEN}✓ Data directory found${NC}"
+fi
+
+# Check if training script exists
+if [ ! -f "scripts/training/tune_all_challenges.py" ]; then
+    echo -e "${RED}✗ Training script not found: scripts/training/tune_all_challenges.py${NC}"
+    exit 1
+else
+    echo -e "${GREEN}✓ Training script found${NC}"
+fi
+
+# Check GPU
+if command -v nvidia-smi &> /dev/null; then
+    GPU_COUNT=$(nvidia-smi --query-gpu=count --format=csv,noheader | head -1)
+    echo -e "${GREEN}✓ GPU available (Count: $GPU_COUNT)${NC}"
+else
+    echo -e "${YELLOW}⚠ GPU not detected (will use CPU - slower)${NC}"
+fi
+
+# Check disk space (need at least 10GB)
+AVAILABLE_GB=$(df -BG . | tail -1 | awk '{print $4}' | sed 's/G//')
+if [ "$AVAILABLE_GB" -lt 10 ]; then
+    echo -e "${RED}✗ Low disk space: ${AVAILABLE_GB}GB available (need 10GB)${NC}"
+    exit 1
+else
+    echo -e "${GREEN}✓ Sufficient disk space: ${AVAILABLE_GB}GB available${NC}"
+fi
+
+# Create output directory if needed
+mkdir -p "$OUTPUT_DIR"
+mkdir -p logs/training
+
+echo ""
+echo "================================================================================"
+echo "📊 Training Configuration:"
+echo "================================================================================"
+echo "  Mode:          $MODE"
+if [ "$MODE" == "single" ]; then
+    echo "  Ticker:        $TICKER"
+fi
+if [ -n "$CHALLENGE_TYPE" ]; then
+    echo "  Type Filter:   $CHALLENGE_TYPE"
+fi
+echo "  Epochs:        $EPOCHS"
+echo "  Batch Size:    $BATCH_SIZE"
+echo "  Data Dir:      $DATA_DIR"
+echo "  Tuning Dir:    $TUNING_DIR"
+echo ""
+echo "  Configurations Tested:"
+echo "    Binary: 13 configs, LBFGS: 7 configs, HITFIRST: 5 configs"
+echo ""
+if [ "$MODE" == "single" ]; then
+    echo "  Estimated Time: 1.5-3 hours"
+elif [ -n "$CHALLENGE_TYPE" ]; then
+    echo "  Estimated Time: 4-8 hours (depends on type)"
+else
+    echo "  Estimated Time: 18-24 hours (all 11 challenges)"
+fi
+echo ""
+
+# Ask for confirmation
+read -p "Start training? (y/N): " -n 1 -r
+echo
+if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+    echo "Training cancelled."
+    exit 0
+fi
+
+echo ""
+echo "================================================================================"
+echo "🎯 Starting Training..."
+echo "================================================================================"
+echo ""
+
+# Build command
+CMD="python scripts/training/tune_all_challenges.py --data-dir $DATA_DIR --tuning-dir $TUNING_DIR --epochs $EPOCHS --batch-size $BATCH_SIZE"
+if [ "$MODE" == "single" ]; then
+    CMD="$CMD --ticker $TICKER"
+fi
+if [ -n "$CHALLENGE_TYPE" ]; then
+    CMD="$CMD --challenge-type $CHALLENGE_TYPE"
+fi
+
+# Generate log filename
+LOGFILE="logs/training/training_$(date +%Y%m%d_%H%M%S).log"
+
+# Run training in background
+nohup $CMD > "$LOGFILE" 2>&1 &
+PID=$!
+
+# Save PID
+echo $PID > logs/training/training.pid
+
+echo -e "${GREEN}✓ Training started successfully!${NC}"
+echo ""
+echo "Process ID: $PID"
+echo "Log file:   $LOGFILE"
+echo ""
+echo "================================================================================"
+echo "📈 Monitoring Commands:"
+echo "================================================================================"
+echo ""
+echo "  Watch progress:"
+echo "    tail -f $LOGFILE"
+echo ""
+echo "  Check status:"
+echo "    ps aux | grep $PID"
+echo ""
+echo "  Check completed models:"
+echo "    ls -d $TUNING_DIR/*/"
+echo ""
+echo "  Stop training (if needed):"
+echo "    kill $PID"
+echo ""
+echo "================================================================================"
+echo ""
+echo -e "${YELLOW}Training is running in the background.${NC}"
+if [ "$MODE" == "single" ]; then
+    echo -e "${YELLOW}It will take 1.5-3 hours to complete.${NC}"
+elif [ -n "$CHALLENGE_TYPE" ]; then
+    echo -e "${YELLOW}It will take 4-8 hours to complete.${NC}"
+else
+    echo -e "${YELLOW}It will take 18-24 hours to complete.${NC}"
+fi
+echo ""
+echo "You can now close this terminal. Training will continue."
+echo ""
+
+# Optionally show initial progress
+read -p "Show live progress now? (y/N): " -n 1 -r
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    echo ""
+    echo "Showing live progress (Ctrl+C to exit, training continues)..."
+    echo ""
+    sleep 2
+    tail -f "$LOGFILE"
+fi

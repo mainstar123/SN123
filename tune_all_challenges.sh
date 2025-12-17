@@ -6,11 +6,12 @@ set -e
 DATA_DIR="data/raw"
 TUNING_DIR="models/tuning"
 EPOCHS=100
-BATCH_SIZE=64
+# GPU-optimized batch size (increased from 64 to 128 for GPU)
+BATCH_SIZE=128
 MIN_ACCURACY=0.55
 
 echo "=========================================="
-echo "MANTIS - Hyperparameter Tuning for All Challenges"
+echo "MANTIS - Hyperparameter Tuning for All Challenges (GPU Optimized)"
 echo "=========================================="
 echo ""
 echo "This will tune hyperparameters for all challenges."
@@ -18,9 +19,21 @@ echo "This may take several hours depending on the number of configurations."
 echo ""
 echo "Configuration:"
 echo "  Epochs per config: $EPOCHS"
-echo "  Batch size: $BATCH_SIZE"
+echo "  Batch size: $BATCH_SIZE (GPU optimized)"
 echo "  Min accuracy: $MIN_ACCURACY"
 echo ""
+
+# Check for GPU
+if command -v nvidia-smi &> /dev/null && nvidia-smi &> /dev/null; then
+    echo "GPU Status:"
+    nvidia-smi --query-gpu=name,memory.total,memory.free --format=csv,noheader
+    echo ""
+else
+    echo "⚠️  Warning: No GPU detected. Training will be slower on CPU."
+    BATCH_SIZE=64  # Reduce batch size for CPU
+    echo "  Batch size reduced to $BATCH_SIZE for CPU"
+    echo ""
+fi
 
 read -p "Continue? (y/n) " -n 1 -r
 echo
@@ -37,6 +50,12 @@ fi
 
 # Create tuning directory
 mkdir -p "$TUNING_DIR"
+
+# Set TensorFlow environment variables for GPU optimization
+export TF_FORCE_GPU_ALLOW_GROWTH=true
+export TF_GPU_THREAD_MODE=gpu_private
+export TF_GPU_THREAD_COUNT=2
+export CUDA_VISIBLE_DEVICES=0
 
 # Run tuning
 echo ""

@@ -10,6 +10,13 @@ import pickle
 import json
 
 try:
+    # Set thread limits before importing TensorFlow
+    import os
+    os.environ['OMP_NUM_THREADS'] = '8'
+    os.environ['TF_NUM_INTRA_OP_PARALLELISM'] = '8'
+    os.environ['TF_NUM_INTER_OP_PARALLELISM'] = '4'
+    os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
+
     import tensorflow as tf
     from tensorflow.keras.models import Sequential, Model
     from tensorflow.keras.layers import LSTM, Dense, Dropout, Input
@@ -43,6 +50,7 @@ except ImportError:
     print("Warning: TensorFlow not installed. Install with: pip install tensorflow")
     tf = None
     Sequential = None
+    Model = None
 
 import xgboost as xgb
 from sklearn.preprocessing import StandardScaler
@@ -290,8 +298,14 @@ class VMDTMFGLSTMXGBoost:
             input_dim = X_train.shape[2]
             self.lstm_model = self.build_lstm(input_dim)
         
-        # Prepare targets (price change for regression)
-        y_train_delta = y_train
+        # Prepare targets - use binary classification for better embeddings
+        # Same threshold as XGBoost for consistency
+        abs_changes = np.abs(y_train)
+        threshold = np.percentile(abs_changes[abs_changes > 0], 70)
+        y_train_binary_for_lstm = (y_train > threshold).astype(int)
+
+        # Convert to regression-like target for LSTM (but centered around threshold)
+        y_train_delta = y_train_binary_for_lstm.astype(float)
         
         # Callbacks
         callbacks = [
@@ -346,56 +360,21 @@ class VMDTMFGLSTMXGBoost:
         lstm_embeddings_train = embedding_model.predict(X_train, verbose=0)
         lstm_embeddings_val = embedding_model.predict(X_val, verbose=0) if X_val is not None else None
         
-        # Train XGBoost on LSTM embeddings
+        # Train XGBoost on LSTM embeddings for regression
         print("Training XGBoost on LSTM embeddings...")
+
+        # Use regression approach: XGBoost predicts price change, not binary classification
+        # This allows the embeddings to be more informative
+        y_train_for_xgb = y_train_delta  # Use actual price changes as regression targets
         
-        # Prepare XGBoost targets (binary direction with threshold)
-        # CRITICAL FIX: Use threshold-based labels to balance classes
-        # Instead of > 0, use a percentile-based threshold to ensure balance
-        threshold = np.percentile(y_train_delta, 50)  # Median split for 50/50 balance
-        y_train_binary = (y_train_delta > threshold).astype(int)
+        # For regression, no class weights needed
+        sample_weights = None
+        print(f"  Regression targets: mean={np.mean(y_train_for_xgb):.6f}, std={np.std(y_train_for_xgb):.6f}")
+        print(f"  Target range: [{np.min(y_train_for_xgb):.6f}, {np.max(y_train_for_xgb):.6f}]")
         
-        if y_val is not None:
-            y_val_binary = (y_val > threshold).astype(int)
-        else:
-            y_val_binary = None
-        
-        # Calculate class weights for imbalanced data
-        # This is critical for high salience - we need to learn minority class patterns
-        class_counts = np.bincount(y_train_binary)
-        total_samples = len(y_train_binary)
-        n_classes = len(class_counts)
-        
-        if n_classes == 2 and total_samples > 0:
-            # Calculate balanced class weights
-            class_weights = {}
-            for i in range(n_classes):
-                if class_counts[i] > 0:
-                    # Standard balanced weight: n_samples / (n_classes * count)
-                    weight = total_samples / (n_classes * class_counts[i])
-                    class_weights[i] = weight
-                else:
-                    class_weights[i] = 1.0
-            
-            # Scale weights to sum to n_classes (XGBoost convention)
-            weight_sum = sum(class_weights.values())
-            if weight_sum > 0:
-                for i in class_weights:
-                    class_weights[i] = class_weights[i] * n_classes / weight_sum
-            
-            print(f"  Class distribution: {dict(zip(range(n_classes), class_counts))}")
-            print(f"  Class balance: {class_counts[0]/(class_counts[0]+class_counts[1])*100:.1f}% / {class_counts[1]/(class_counts[0]+class_counts[1])*100:.1f}%")
-            print(f"  Class weights: {class_weights}")
-            print(f"  Threshold used: {threshold:.6f}")
-            
-            # Create sample weights for XGBoost
-            sample_weights = np.array([class_weights[y] for y in y_train_binary])
-        else:
-            sample_weights = None
-        
-        # Train XGBoost
-        dtrain = xgb.DMatrix(lstm_embeddings_train, label=y_train_binary, weight=sample_weights)
-        
+        # Train XGBoost for regression
+        dtrain = xgb.DMatrix(lstm_embeddings_train, label=y_train_for_xgb, weight=sample_weights)
+
         # Determine XGBoost tree method (GPU or CPU)
         tree_method = 'hist'
         xgb_predictor = None
@@ -404,48 +383,30 @@ class VMDTMFGLSTMXGBoost:
             has_xgb_gpu = _has_cuda_support()
         except Exception:
             has_xgb_gpu = False
-        
+
         if self.use_gpu and has_xgb_gpu and tf is not None and tf.config.list_physical_devices('GPU'):
             tree_method = 'gpu_hist'
             xgb_predictor = 'gpu_predictor'
             print("  XGBoost will use GPU (gpu_hist)")
         else:
             print("  XGBoost will use CPU (hist method)")
-        
-        # Calculate base_score from the data (proportion of positive class)
-        # This must be in (0,1) for binary:logistic objective
-        positive_ratio = y_train_binary.mean()
-        base_score = max(0.01, min(0.99, positive_ratio))  # Clamp to (0.01, 0.99)
-        
-        # Use scale_pos_weight for additional class imbalance handling
-        # With median split, this should be ~1.0, but still calculate it
-        if n_classes == 2 and class_counts[1] > 0:
-            scale_pos_weight = class_counts[0] / class_counts[1]
-        else:
-            scale_pos_weight = 1.0
-        
-        print(f"  Base score: {base_score:.4f}, Scale pos weight: {scale_pos_weight:.4f}")
-        
+
         params = {
             'max_depth': 6,
             'eta': 0.1,
-            'objective': 'binary:logistic',
-            'eval_metric': 'auc',
+            'objective': 'reg:squarederror',  # Regression objective
+            'eval_metric': 'rmse',  # RMSE for regression
             'subsample': 0.8,
             'colsample_bytree': 0.8,
             'random_state': 42,
-            'tree_method': tree_method,
-            'base_score': base_score,  # Explicitly set base_score for logistic loss
-            'scale_pos_weight': scale_pos_weight,  # Handle class imbalance
-            'min_child_weight': 1,  # Allow more splits for minority class
-            'max_delta_step': 1  # Help with imbalanced data
+            'tree_method': tree_method
         }
         if xgb_predictor:
             params['predictor'] = xgb_predictor
         
         evals = [(dtrain, 'train')]
         if lstm_embeddings_val is not None:
-            dval = xgb.DMatrix(lstm_embeddings_val, label=y_val_binary)
+            dval = xgb.DMatrix(lstm_embeddings_val, label=y_val)
             evals.append((dval, 'val'))
         
         # Train XGBoost
@@ -464,46 +425,23 @@ class VMDTMFGLSTMXGBoost:
             print(f"  XGBoost training error: {error_msg[:200]}")
             raise
         
-        # Evaluate
+        # Evaluate on training data (regression metrics)
         train_pred = self.xgb_model.predict(dtrain)
-        train_pred_binary = (train_pred > 0.5).astype(int)
-        train_acc = accuracy_score(y_train_binary, train_pred_binary)
-        
-        # Debug: Show prediction distribution
-        pred_counts = np.bincount(train_pred_binary, minlength=2)
-        print(f"  Prediction distribution: Class 0: {pred_counts[0]} ({pred_counts[0]/len(train_pred_binary)*100:.1f}%), Class 1: {pred_counts[1]} ({pred_counts[1]/len(train_pred_binary)*100:.1f}%)")
-        print(f"  Prediction mean: {train_pred.mean():.4f} (should be ~0.5 for balanced predictions)")
-        
-        # Calculate AUC only if we have both classes
-        try:
-            if len(np.unique(y_train_binary)) > 1 and len(np.unique(train_pred_binary)) > 1:
-                train_auc = roc_auc_score(y_train_binary, train_pred)
-            else:
-                train_auc = float('nan')
-                print("  Warning: AUC cannot be calculated (all predictions or labels are the same class)")
-        except Exception as e:
-            train_auc = float('nan')
-            print(f"  Warning: AUC calculation failed: {str(e)[:60]}")
-        
-        print(f"Train Accuracy: {train_acc:.4f}, AUC: {train_auc:.4f}")
-        
+        train_mse = np.mean((train_pred - y_train_for_xgb) ** 2)
+        train_rmse = np.sqrt(train_mse)
+        train_mae = np.mean(np.abs(train_pred - y_train_for_xgb))
+
+        print(f"  Prediction stats: mean={train_pred.mean():.6f}, std={train_pred.std():.6f}")
+        print(f"  Target stats: mean={y_train_for_xgb.mean():.6f}, std={y_train_for_xgb.std():.6f}")
+        print(f"Train MSE: {train_mse:.8f}, RMSE: {train_rmse:.6f}, MAE: {train_mae:.6f}")
+
         if lstm_embeddings_val is not None:
             val_pred = self.xgb_model.predict(dval)
-            val_pred_binary = (val_pred > 0.5).astype(int)
-            val_acc = accuracy_score(y_val_binary, val_pred_binary)
-            
-            # Calculate AUC only if we have both classes
-            try:
-                if len(np.unique(y_val_binary)) > 1 and len(np.unique(val_pred_binary)) > 1:
-                    val_auc = roc_auc_score(y_val_binary, val_pred)
-                else:
-                    val_auc = float('nan')
-                    print("  Warning: Val AUC cannot be calculated (all predictions or labels are the same class)")
-            except Exception as e:
-                val_auc = float('nan')
-                print(f"  Warning: Val AUC calculation failed: {str(e)[:60]}")
-            
-            print(f"Val Accuracy: {val_acc:.4f}, AUC: {val_auc:.4f}")
+            val_mse = np.mean((val_pred - y_val) ** 2)
+            val_rmse = np.sqrt(val_mse)
+            val_mae = np.mean(np.abs(val_pred - y_val))
+
+            print(f"Val MSE: {val_mse:.8f}, RMSE: {val_rmse:.6f}, MAE: {val_mae:.6f}")
     
     def predict_embeddings(self, X_seq: np.ndarray) -> np.ndarray:
         """
@@ -543,11 +481,15 @@ class VMDTMFGLSTMXGBoost:
         dtest = xgb.DMatrix(lstm_embeddings)
         xgb_pred = self.xgb_model.predict(dtest)
         
-        # Convert to embeddings
-        # For binary classification, use [prob_down, prob_up] as 2D embedding
-        # For higher dimensions, use feature importance or leaf indices
+        # Convert regression predictions to probabilities for embeddings
+        # Since we trained XGBoost for regression on price changes, we need to convert
+        # the regression outputs back to classification probabilities
         if self.embedding_dim == 2:
-            embeddings = np.column_stack([1 - xgb_pred, xgb_pred])
+            # Convert regression outputs to probabilities using sigmoid
+            # Assume the regression target was centered around classification threshold
+            # Use sigmoid to convert to [0,1] probability range
+            regression_prob = 1 / (1 + np.exp(-xgb_pred))  # Sigmoid
+            embeddings = np.column_stack([1 - regression_prob, regression_prob])
         else:
             # For higher dimensions, use leaf indices or feature contributions
             # This is a simplified approach - can be improved

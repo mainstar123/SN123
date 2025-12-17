@@ -12,6 +12,20 @@ from itertools import product
 import numpy as np
 from datetime import datetime
 
+# Set TensorFlow environment variables BEFORE importing TensorFlow
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+os.environ['TF_GPU_THREAD_MODE'] = 'gpu_private'
+
+# Limit thread usage to prevent resource exhaustion
+os.environ['OMP_NUM_THREADS'] = '8'  # Limit OpenMP threads
+
+# Fix TensorFlow threading issues in containers
+os.environ['TF_NUM_INTEROP_THREADS'] = '1'
+os.environ['TF_NUM_INTRAOP_THREADS'] = '1'
+os.environ['TF_NUM_INTRA_OP_PARALLELISM'] = '8'  # TensorFlow intra-op parallelism
+os.environ['TF_NUM_INTER_OP_PARALLELISM'] = '4'  # TensorFlow inter-op parallelism
+os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'  # Disable oneDNN optimizations that can cause threading issues
+
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
@@ -337,8 +351,8 @@ def main():
     parser.add_argument(
         "--batch-size",
         type=int,
-        default=64,
-        help="Batch size (default: 64)"
+        default=128,
+        help="Batch size (default: 128 for GPU, use 64 for CPU)"
     )
     parser.add_argument(
         "--min-accuracy",
@@ -364,6 +378,33 @@ def main():
     print(f"Epochs per config: {args.epochs}")
     print(f"Batch size: {args.batch_size}")
     print(f"Min accuracy: {args.min_accuracy}")
+    
+    # Verify GPU availability
+    try:
+        import tensorflow as tf
+
+        # Fix TensorFlow threading issues in containers
+        tf.config.threading.set_inter_op_parallelism_threads(1)
+        tf.config.threading.set_intra_op_parallelism_threads(1)
+
+        gpus = tf.config.list_physical_devices('GPU')
+        if gpus:
+            print(f"\n✓ GPU Available: {len(gpus)} device(s)")
+            for gpu in gpus:
+                print(f"  - {gpu.name}")
+            print(f"✓ Memory growth: {tf.config.experimental.get_memory_growth(gpus[0])}")
+            try:
+                policy = tf.keras.mixed_precision.global_policy()
+                print(f"✓ Mixed precision: {policy.name}")
+            except:
+                pass
+            print("✓ Threading configured for container environment")
+        else:
+            print("\n⚠️  WARNING: No GPU detected - training will be SLOW on CPU!")
+            print("   Consider using a GPU instance for faster tuning.")
+    except Exception as e:
+        print(f"\n⚠️  GPU check failed: {e}")
+    
     print("=" * 80)
     
     os.makedirs(args.tuning_dir, exist_ok=True)

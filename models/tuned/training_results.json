@@ -1,52 +1,46 @@
 {
-  "timestamp": "2025-12-10T12:35:45.798526",
-  "total_challenges": 2,
-  "successful": 2,
-  "failed": 0,
-  "use_tuning": true,
-  "n_trials": 50,
+  "timestamp": "2025-12-12T18:36:12.570803",
+  "total_challenges": 6,
+  "successful": 0,
+  "failed": 6,
+  "use_tuning": false,
+  "n_trials": 0,
   "results": [
     {
       "challenge_name": "ETH-LBFGS",
-      "status": "success",
-      "embedding_dim": 17,
-      "weight": 3.5,
-      "train_accuracy": 0.4962635088526098,
-      "val_accuracy": 0.50067186240258,
-      "best_params": {
-        "embedding_dim": 17,
-        "lstm_hidden": 256,
-        "lstm_layers": 2,
-        "time_steps": 25,
-        "vmd_k": 5,
-        "tmfg_n_features": 15,
-        "dropout": 0.34973279224012654,
-        "learning_rate": 0.00016305687346221485,
-        "use_gpu": true
-      },
-      "duration_seconds": 17945.434784,
-      "model_dir": "models/tuned/ETH-LBFGS"
+      "status": "failed",
+      "reason": "{{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: ",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ocean/Nereus/SN123/scripts/training/train_all_challenges.py\", line 305, in train_challenge\n    model.train(\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 292, in train\n    self.lstm_model = self.build_lstm(input_dim)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 137, in build_lstm\n    model.add(LSTM(\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 122, in add\n    self._maybe_rebuild()\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 149, in _maybe_rebuild\n    self.build(input_shape)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/layers/layer.py\", line 231, in build_wrapper\n    original_build_method(*args, **kwargs)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 195, in build\n    x = layer(x)\n        ^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/utils/traceback_utils.py\", line 122, in error_handler\n    raise e.with_traceback(filtered_tb) from None\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/backend/tensorflow/numpy.py\", line 2421, in sign\n    return tf.sign(x)\n           ^^^^^^^^^^\ntensorflow.python.framework.errors_impl.UnknownError: {{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: \n"
     },
     {
       "challenge_name": "BTC-LBFGS-6H",
-      "status": "success",
-      "embedding_dim": 17,
-      "weight": 2.875,
-      "train_accuracy": 0.4912166204383532,
-      "val_accuracy": 0.5103597305198933,
-      "best_params": {
-        "embedding_dim": 17,
-        "lstm_hidden": 256,
-        "lstm_layers": 3,
-        "time_steps": 25,
-        "vmd_k": 11,
-        "tmfg_n_features": 13,
-        "dropout": 0.27954740340919576,
-        "learning_rate": 0.00020106755146109614,
-        "use_gpu": true
-      },
-      "duration_seconds": 22682.066911,
-      "model_dir": "models/tuned/BTC-LBFGS-6H"
+      "status": "failed",
+      "reason": "{{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: ",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ocean/Nereus/SN123/scripts/training/train_all_challenges.py\", line 305, in train_challenge\n    model.train(\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 292, in train\n    self.lstm_model = self.build_lstm(input_dim)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 137, in build_lstm\n    model.add(LSTM(\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 122, in add\n    self._maybe_rebuild()\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 149, in _maybe_rebuild\n    self.build(input_shape)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/layers/layer.py\", line 231, in build_wrapper\n    original_build_method(*args, **kwargs)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 195, in build\n    x = layer(x)\n        ^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/utils/traceback_utils.py\", line 122, in error_handler\n    raise e.with_traceback(filtered_tb) from None\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/backend/tensorflow/numpy.py\", line 2421, in sign\n    return tf.sign(x)\n           ^^^^^^^^^^\ntensorflow.python.framework.errors_impl.UnknownError: {{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: \n"
+    },
+    {
+      "challenge_name": "ETH-HITFIRST-100M",
+      "status": "failed",
+      "reason": "{{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: ",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ocean/Nereus/SN123/scripts/training/train_all_challenges.py\", line 305, in train_challenge\n    model.train(\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 292, in train\n    self.lstm_model = self.build_lstm(input_dim)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 137, in build_lstm\n    model.add(LSTM(\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 122, in add\n    self._maybe_rebuild()\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 149, in _maybe_rebuild\n    self.build(input_shape)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/layers/layer.py\", line 231, in build_wrapper\n    original_build_method(*args, **kwargs)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 195, in build\n    x = layer(x)\n        ^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/utils/traceback_utils.py\", line 122, in error_handler\n    raise e.with_traceback(filtered_tb) from None\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/backend/tensorflow/numpy.py\", line 2421, in sign\n    return tf.sign(x)\n           ^^^^^^^^^^\ntensorflow.python.framework.errors_impl.UnknownError: {{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: \n"
+    },
+    {
+      "challenge_name": "ETH-1H-BINARY",
+      "status": "failed",
+      "reason": "{{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: ",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ocean/Nereus/SN123/scripts/training/train_all_challenges.py\", line 305, in train_challenge\n    model.train(\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 292, in train\n    self.lstm_model = self.build_lstm(input_dim)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 137, in build_lstm\n    model.add(LSTM(\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 122, in add\n    self._maybe_rebuild()\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 149, in _maybe_rebuild\n    self.build(input_shape)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/layers/layer.py\", line 231, in build_wrapper\n    original_build_method(*args, **kwargs)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 195, in build\n    x = layer(x)\n        ^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/utils/traceback_utils.py\", line 122, in error_handler\n    raise e.with_traceback(filtered_tb) from None\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/backend/tensorflow/numpy.py\", line 2421, in sign\n    return tf.sign(x)\n           ^^^^^^^^^^\ntensorflow.python.framework.errors_impl.UnknownError: {{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: \n"
+    },
+    {
+      "challenge_name": "EURUSD-1H-BINARY",
+      "status": "failed",
+      "reason": "{{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: ",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ocean/Nereus/SN123/scripts/training/train_all_challenges.py\", line 305, in train_challenge\n    model.train(\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 292, in train\n    self.lstm_model = self.build_lstm(input_dim)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 137, in build_lstm\n    model.add(LSTM(\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 122, in add\n    self._maybe_rebuild()\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 149, in _maybe_rebuild\n    self.build(input_shape)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/layers/layer.py\", line 231, in build_wrapper\n    original_build_method(*args, **kwargs)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 195, in build\n    x = layer(x)\n        ^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/utils/traceback_utils.py\", line 122, in error_handler\n    raise e.with_traceback(filtered_tb) from None\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/backend/tensorflow/numpy.py\", line 2421, in sign\n    return tf.sign(x)\n           ^^^^^^^^^^\ntensorflow.python.framework.errors_impl.UnknownError: {{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: \n"
+    },
+    {
+      "challenge_name": "GBPUSD-1H-BINARY",
+      "status": "failed",
+      "reason": "{{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: ",
+      "traceback": "Traceback (most recent call last):\n  File \"/home/ocean/Nereus/SN123/scripts/training/train_all_challenges.py\", line 305, in train_challenge\n    model.train(\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 292, in train\n    self.lstm_model = self.build_lstm(input_dim)\n                      ^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/scripts/training/model_architecture.py\", line 137, in build_lstm\n    model.add(LSTM(\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 122, in add\n    self._maybe_rebuild()\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 149, in _maybe_rebuild\n    self.build(input_shape)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/layers/layer.py\", line 231, in build_wrapper\n    original_build_method(*args, **kwargs)\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/models/sequential.py\", line 195, in build\n    x = layer(x)\n        ^^^^^^^^\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/utils/traceback_utils.py\", line 122, in error_handler\n    raise e.with_traceback(filtered_tb) from None\n  File \"/home/ocean/Nereus/SN123/venv/lib/python3.11/site-packages/keras/src/backend/tensorflow/numpy.py\", line 2421, in sign\n    return tf.sign(x)\n           ^^^^^^^^^^\ntensorflow.python.framework.errors_impl.UnknownError: {{function_node __wrapped__Sign_device_/job:localhost/replica:0/task:0/device:GPU:0}} JIT compilation failed. [Op:Sign] name: \n"
     }
   ]
 }

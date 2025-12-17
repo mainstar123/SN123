@@ -11,6 +11,10 @@ from pathlib import Path
 from itertools import product
 import numpy as np
 
+# Set TensorFlow environment variables BEFORE importing TensorFlow
+os.environ['TF_FORCE_GPU_ALLOW_GROWTH'] = 'true'
+os.environ['TF_GPU_THREAD_MODE'] = 'gpu_private'
+
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
